@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Sansita";
+  src: 
+  url("~@/assets/media/fonts/Sansita-Black.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OpenSans";
+  src: 
+  url("~@/assets/media/fonts/OpenSans-SemiBold.ttf") format("truetype");
+}
+// C:\wamp64\www\webdev\comida\src\assets\media\fonts\OpenSans-SemiBold.ttf
+// Header Font Family
+$header-font: "Sansita", sans-serif;
+$text-font: "OpenSans", sans-serif;
+
+// Font Sizes Headers
+$h1: 6.5rem;
+$h2: 2rem;
+$h3: 1.5rem;
+$h4: 1rem;
+$li: 1.2rem;
+$p: 1rem;
+
+// Fonts
+h1, h2, h3, h4, h5, h6 {
+  font-family: $header-font;
+}
+
+h1 {
+  font-size: $h1;
+}
+
+h2 {
+  font-size: $h2;
+  color: $primary;
+}
+
+h3 {
+  font-size: $h3;
+  color: $primary;
+}
+
+h4 {
+  font-size: $h4;
+  color: $primary;
+}
+
+p, li {
+  font-family: $text-font;
+  color: $p-primary;
+}
