@@ -6,7 +6,8 @@ function my_customize_rest_cors() {
 		header( 'Access-Control-Allow-Origin: *' );
 		header( 'Access-Control-Allow-Methods: GET' );
 		header( 'Access-Control-Allow-Credentials: true' );
-		header( 'Access-Control-Expose-Headers: Link', false );
+    header( 'Access-Control-Expose-Headers: Link', false );
+    header( 'Access-Control-Allow-Headers: X-Requested-With' );
 
 		return $value;
 	} );
