@@ -22,8 +22,7 @@ const mutations = {
     fetch(`${state.apiUrl}jwt-auth/v1/token`, {
       body: JSON.stringify(user),
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       },
       method: 'POST'
     }).then(response => response.json())
@@ -50,8 +49,7 @@ const mutations = {
       fetch(`${state.apiUrl}wp/v2/users/register`, {
         body: JSON.stringify(userData.user),
         headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Content-Type': 'application/json'
         },
         method: 'POST'
       }).then(response => response.json())
