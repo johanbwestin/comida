@@ -12,14 +12,14 @@ Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(VueRouter)
 
-Vue.http.options.root = 'http://localhost:8080/webdev/comida/admin/wp-json'
+Vue.http.options.root = process.env.VUE_APP_API_URL
 
 Vue.config.productionTip = false
 
 const mutations = {
   userLogin(state, user) {
-    // console.log(user)
-    fetch('http://localhost:8080/webdev/comida/admin/wp-json/jwt-auth/v1/token', {
+    console.log()
+    fetch(`${state.apiUrl}jwt-auth/v1/token`, {
       body: JSON.stringify(user),
       headers: {
         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const mutations = {
   registerUser(state, userData) {
     console.log(userData)
     if (userData.terms) {
-      fetch('http://localhost:8080/webdev/comida/admin/wp-json/wp/v2/users/register', {
+      fetch(`${state.apiUrl}wp/v2/users/register`, {
         body: JSON.stringify(userData.user),
         headers: {
           'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const mutations = {
           // console.log(response)
           state.message = response.message
           // console.log(state.message)
-        }).then(()=> router.push('home'))
+        }).then(()=> router.push('home')).catch(() => {})
         .catch(error => {
           alert(error)
         })
@@ -66,10 +66,10 @@ const mutations = {
   checkStatus(state) {
     if (state.token) {
       state.isLoggedIn = true
-      router.push('home')
+      router.push('home').catch(() => {})
     } else {
       state.isLoggedIn = false
-      router.push('logga-in')
+      router.push('logga-in').catch(() => {})
     }
   },
   // strippedContent(state, content) {
@@ -82,7 +82,8 @@ const mutations = {
 const state = {
   token: localStorage.getItem('token') || null,
   isLoggedIn: false,
-  message: null
+  message: null,
+  apiUrl: process.env.VUE_APP_API_URL
 }
 
 const store = new Vuex.Store({
