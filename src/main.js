@@ -22,7 +22,8 @@ const mutations = {
     fetch(`${state.apiUrl}jwt-auth/v1/token`, {
       body: JSON.stringify(user),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       method: 'POST'
     }).then(response => response.json())
@@ -49,7 +50,8 @@ const mutations = {
       fetch(`${state.apiUrl}wp/v2/users/register`, {
         body: JSON.stringify(userData.user),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         method: 'POST'
       }).then(response => response.json())
@@ -57,7 +59,7 @@ const mutations = {
           // console.log(response)
           state.message = response.message
           // console.log(state.message)
-        }).then(()=> router.push('home')).catch(() => {})
+        }).then(() => router.push('home')).catch(() => { })
         .catch(error => {
           alert(error)
         })
@@ -66,10 +68,10 @@ const mutations = {
   checkStatus(state) {
     if (state.token) {
       state.isLoggedIn = true
-      router.push('home').catch(() => {})
+      router.push('home').catch(() => { })
     } else {
       state.isLoggedIn = false
-      router.push('logga-in').catch(() => {})
+      router.push('logga-in').catch(() => { })
     }
   },
   // strippedContent(state, content) {
