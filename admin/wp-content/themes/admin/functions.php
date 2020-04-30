@@ -3,12 +3,8 @@
 function my_customize_rest_cors() {
 	remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
 	add_filter( 'rest_pre_serve_request', function( $value ) {
-		header( 'Access-Control-Allow-Origin: *' );
-		header( 'Access-Control-Allow-Methods: GET' );
-		header( 'Access-Control-Allow-Credentials: true' );
-    header( 'Access-Control-Expose-Headers: Link', false );
-    header( 'Access-Control-Allow-Headers: X-Requested-With' );
-
+    header( 'Access-Control-Allow-Origin: *' );
+    
 		return $value;
 	} );
 }

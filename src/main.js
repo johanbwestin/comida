@@ -41,7 +41,7 @@ const mutations = {
 
       }).then(() => { store.commit('checkStatus') })
       .catch(error => {
-        alert(error)
+        console.log(error)
       })
   },
   registerUser(state, userData) {
@@ -61,7 +61,7 @@ const mutations = {
           // console.log(state.message)
         }).then(() => router.push('home')).catch(() => { })
         .catch(error => {
-          alert(error)
+          console.log(error)
         })
     }
   },
