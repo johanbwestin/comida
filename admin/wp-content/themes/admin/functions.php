@@ -1,29 +1,18 @@
 <?php
 // CORS
-add_action('init', 'handle_preflight');
-function handle_preflight() {
-    $origin = get_http_origin();
-    if ($origin === 'https://yourfrontenddomain') {
-        header("Access-Control-Allow-Origin: " . HEADLESS_FRONTEND_URL);
-        header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
-        header("Access-Control-Allow-Credentials: true");
-        header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
-        if ('OPTIONS' == $_SERVER['REQUEST_METHOD']) {
-            status_header(200);
-            exit();
-        }
-    }
-}
-add_filter('rest_authentication_errors', 'rest_filter_incoming_connections');
-function rest_filter_incoming_connections($errors) {
-    $request_server = $_SERVER['REMOTE_ADDR'];
-    $origin = get_http_origin();
-    if ($origin !== 'https://yourfrontenddomain') return new WP_Error('forbidden_access', $origin, array(
-        'status' => 403
-    ));
-    return $errors;
+function my_customize_rest_cors() {
+	remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
+	add_filter( 'rest_pre_serve_request', function( $value ) {
+		header( 'Access-Control-Allow-Origin: *' );
+		header( 'Access-Control-Allow-Methods: GET' );
+		header( 'Access-Control-Allow-Credentials: true' );
+		header( 'Access-Control-Expose-Headers: Link', false );
+
+		return $value;
+	} );
 }
 
+add_action( 'rest_api_init', 'my_customize_rest_cors', 15 );
 
 // Posttypes
 function recipe_post() {
