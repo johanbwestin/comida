@@ -17,6 +17,7 @@
             <h4>Lägg till bild</h4>
           </label>
           <input type="file" name="file" @change="handleFileUpload" />
+          <input type="button" name="button" @click.prevent="test" />
         </div>
         <div class="input-container">
           <label class="w3-text-blue">
@@ -86,126 +87,167 @@
   </section>
 </template>
 <style lang="scss" scoped>
-  .recipe-section {
-    height: 100vh;
-    width: 100%;
+.recipe-section {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .preview-container {
+    flex: 1;
+  }
+  .form-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    .preview-container {
-      flex: 1;
-    }
-    .form-container {
+    height: 45vh;
+    width: 50%;
+    background-color: $bg;
+    form {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      height: 45vh;
-      width: 50%;
-      background-color: $bg;
-      form {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        .input-container,
-        .button-container {
-          margin: {
-            // left: auto;
-            // right: auto;
-            top: 1rem;
-          }
-          width: 70%;
-          input {
-            height: 2.3rem;
-            width: 100%;
-          }
-          .add-btn,
-          .back-btn,
-          .submit-btn {
-            border: none;
-            background-color: $primary;
-            p {
-              font-size: 0.9rem;
-              color: $bg;
-              padding: {
-                top: 5px;
-                bottom: 5px;
-                left: 8px;
-                right: 8px;
-              }
+      width: 100%;
+      .input-container,
+      .button-container {
+        margin: {
+          // left: auto;
+          // right: auto;
+          top: 1rem;
+        }
+        width: 70%;
+        input {
+          height: 2.3rem;
+          width: 100%;
+        }
+        .add-btn,
+        .back-btn,
+        .submit-btn {
+          border: none;
+          background-color: $primary;
+          p {
+            font-size: 0.9rem;
+            color: $bg;
+            padding: {
+              top: 5px;
+              bottom: 5px;
+              left: 8px;
+              right: 8px;
             }
           }
-          .back-btn {
-            margin-right: 0.5rem;
-          }
         }
-      }
-      .header-container {
-        // justify-content: center;
-        align-items: center;
-        // display: flex;
-        height: 15%;
-        width: 100%;
-        // background-color: $primary;
-        h3 {
-          padding: 5px;
-          color: $bg;
-          margin-bottom: 6px;
-        }
-        .line {
-          display: inline-block;
-          height: 3px;
-          width: 2rem;
-          background-color: $thirdary;
+        .back-btn {
+          margin-right: 0.5rem;
         }
       }
     }
+    .header-container {
+      // justify-content: center;
+      align-items: center;
+      // display: flex;
+      height: 15%;
+      width: 100%;
+      // background-color: $primary;
+      h3 {
+        padding: 5px;
+        color: $bg;
+        margin-bottom: 6px;
+      }
+      .line {
+        display: inline-block;
+        height: 3px;
+        width: 2rem;
+        background-color: $thirdary;
+      }
+    }
   }
+}
 </style>
 <script>
-  export default {
-    data() {
-      return {
-        // test: process.env.TITLE,
-        file: null,
-        ingredient: {
-          qty: null,
-          unit: null,
-          name: null,
-          com: null,
-        },
-        instruction: null,
-        recipe: {
-          title: null,
-          description: null,
-          ingredients: [],
-          instructions: [],
-        }
-      }
-    },
-    mounted() {
+// import axios from 'axios'
+export default {
+  data() {
+    return {
+      // test: process.env.TITLE,
+      token: "Bearer " + this.$store.state.token,
+      file: null,
+      ingredient: {
+        qty: null,
+        unit: null,
+        name: null,
+        com: null
       },
-    methods: {
-      addIngredient(ing) {
+      instruction: null,
+      recipe: {
+        title: null,
+        description: null,
+        ingredients: [],
+        instructions: []
+      }
+    };
+  },
+  mounted() {},
+  methods: {
+    addIngredient(ing) {
       // console.log(process.env.VUE_APP_API_URL)
-        this.recipe.ingredients.push(ing)
-        this.ingredient = {
-          qty: null,
-          unit: null,
-          name: null,
-          com: null,
-        }
-      },
-      addInstruction(ins) {
-        console.log(ins)
-        this.recipe.instructions.push(ins)
-        this.instruction = null
-      },
-      onSubmit() {
-        this.$store.commit("login", this.user)
-      },
-      handleFileUpload(e) {
-        this.file = e.target.files[0];
-      }
+      this.recipe.ingredients.push(ing);
+      this.ingredient = {
+        qty: null,
+        unit: null,
+        name: null,
+        com: null
+      };
     },
+    addInstruction(ins) {
+      console.log(ins);
+      this.recipe.instructions.push(ins);
+      this.instruction = null;
+    },
+    onSubmit() {
+      this.$store.commit("login", this.user);
+    },
+    test() {
+      const axios = require("axios");
+      const fd = new FormData();
+
+      axios({
+        url: `${this.$store.state.apiUrl}wp/v2/media`,
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Disposition": 'attachment; filename="file.jpg"',
+          "Authorization": this.token,
+          "Content-Type": "image/jpeg"
+        },
+        data: fd.append("image", this.file, this.file.name)
+      })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleFileUpload(e) {
+      console.log(e);
+      this.file = e.target.files[0];
+      // fd.append('image', this.file, this.file.name)
+
+      // const fs = require('fs');
+
+      // fetch(`${this.$store.state.apiUrl}wp/v2/media`, {
+      //   body: fd,
+      //   headers: {
+      //     'CURLOPT_HTTPHEADER': [
+      //       'Content-type: application/json',
+      //       'Authorization: Basic ' . token,
+      //       'Content-Disposition: attachment; filename="acme.png"'
+      //       ]
+      //     // "Content-Type": "multipart/form-data",
+      //     // "Authorization": token
+      //   },
+      //   method: 'POST'
+      // });
+    } //
   }
+};
 </script>
