@@ -1,156 +1,66 @@
 <template>
-  <section class="recipe-section" style>
-    <div class="form-container">
-      <div class="header-container">
-        <h2>Lägg till recept</h2>
+  <section class="recipes-section" style>
+    <Hero title="Recept" />
+    <div class="recipes-container">
+      <div class="title-container">
+        <h2>Recept</h2>
         <span class="line"></span>
       </div>
-      <form action>
-        <div class="input-container">
-          <label class="w3-text-blue">
-            <h4>Rubrik</h4>
-          </label>
-          <input v-model="recipe.title" placeholder="Rubrik" type="text" name="title" />
-        </div>
-        <div class="input-container">
-          <label class="w3-text-blue">
-            <h4>Lägg till bild</h4>
-          </label>
-          <input type="file" name="file" @change="handleFileUpload" />
-          <input type="button" name="button" @click.prevent="test" />
-        </div>
-        <div class="input-container">
-          <label class="w3-text-blue">
-            <h4>Beskrivning</h4>
-          </label>
-          <input
-            v-model="recipe.description"
-            placeholder="Instruktion"
-            type="text"
-            name="description"
-          />
-        </div>
-        <div class="input-container">
-          <label class="w3-text-blue">
-            <h4>Ingredienser</h4>
-          </label>
-          <div class="ingredient-container">
-            <input v-model="ingredient.qty" placeholder="Mängd" type="number" name="qty" />
-            <input v-model="ingredient.unit" placeholder="Enhet" type="text" name="unit" />
-            <input v-model="ingredient.name" placeholder="Ingrediens" type="text" name="ingredient" />
-            <input v-model="ingredient.com" placeholder="Kommentar" type="text" name="comment" />
+      <div v-for="(recipe, index) in recipes" :key="index" class="card-container">
+        <router-link :to="'/recept/' + recipe.id">
+          <div class="card" @click="$store.commit('updateViews', recipe.id)">
+            <div class="img-container">
+              <img
+                v-if="recipe.better_featured_image"
+                :src="recipe.better_featured_image.media_details.sizes.medium.source_url"
+                alt
+              />
+            </div>
+            <div class="text-container">
+              <h4 v-if="recipe.title">{{recipe.title.rendered}}</h4>
+              <p v-if="recipe.meta_box.description">{{recipe.meta_box.description}}</p>
+            </div>
           </div>
-          <div class="button-container">
-            <button class="add-btn" @click.prevent="addIngredient(ingredient)">
-              <p>Lägg till</p>
-            </button>
-          </div>
-        </div>
-        <div class="input-container">
-          <label class="w3-text-blue">
-            <h4>Instruktioner</h4>
-          </label>
-          <input v-model="instruction" placeholder="Instruktion" type="text" name="instruction" />
-          <div class="button-container">
-            <button class="add-btn" @click.prevent="addInstruction(instruction)">
-              <p>Lägg till</p>
-            </button>
-          </div>
-        </div>
-        <div class="button-container">
-          <button class="back-btn">
-            <p>Tillbaka</p>
-          </button>
-          <button class="submit-btn" @click.prevent="onSubmit">
-            <p>Skicka</p>
-          </button>
-        </div>
-      </form>
-    </div>
-    <div class="preview-container">
-      <h2>{{recipe.title}}</h2>
-      <p>{{recipe.description}}</p>
-      <h3 v-if="recipe.title">Ingredienser</h3>
-      <ul>
-        <li
-          v-for="(ing, index) in recipe.ingredients"
-          :key="index"
-        >{{ing.qty}} {{ing.unit}} {{ing.name}}{{ing.com ? ", " + ing.com : ""}}</li>
-      </ul>
-      <h3 v-if="recipe.title">Instruktioner</h3>
-      <ol>
-        <li v-for="(ins, index) in recipe.instructions" :key="index">
-          <p>{{ins}}</p>
-        </li>
-      </ol>
+        </router-link>
+      </div>
     </div>
   </section>
 </template>
 <style lang="scss" scoped>
-.recipe-section {
-  height: 100vh;
+.recipes-section {
+  text-align: start;
+  position: relative;
+  // height: 50vh;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  .preview-container {
-    flex: 1;
-  }
-  .form-container {
+  .recipes-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 45vh;
+    flex-direction: row;
+    flex-wrap: wrap;
+    // align-items: center;
     width: 50%;
-    background-color: $bg;
-    form {
+    .search-container {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       width: 100%;
-      .input-container,
-      .button-container {
+      input {
         margin: {
-          // left: auto;
-          // right: auto;
-          top: 1rem;
+          left: auto;
+          right: auto;
         }
+        height: 2.3rem;
         width: 70%;
-        input {
-          height: 2.3rem;
-          width: 100%;
-        }
-        .add-btn,
-        .back-btn,
-        .submit-btn {
-          border: none;
-          background-color: $primary;
-          p {
-            font-size: 0.9rem;
-            color: $bg;
-            padding: {
-              top: 5px;
-              bottom: 5px;
-              left: 8px;
-              right: 8px;
-            }
-          }
-        }
-        .back-btn {
-          margin-right: 0.5rem;
-        }
       }
     }
-    .header-container {
-      // justify-content: center;
-      align-items: center;
-      // display: flex;
-      height: 15%;
+    .title-container {
       width: 100%;
-      // background-color: $primary;
-      h3 {
-        padding: 5px;
-        color: $bg;
-        margin-bottom: 6px;
+      margin: {
+        top: 5rem;
       }
       .line {
         display: inline-block;
@@ -159,95 +69,124 @@
         background-color: $thirdary;
       }
     }
+    .card-container {
+      width: 33.33333333333333333333333333333333333333333%;
+      margin: {
+        top: 1rem;
+        bottom: 1rem;
+      }
+      .card {
+        width: 90%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .img-container {
+          height: 13.5rem;
+          width: 100%;
+          background-color: lightgray;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          img {
+            // height: 100%;
+            width: 100%;
+          }
+        }
+        .text-container {
+          position: absolute;
+          bottom: 1rem;
+          // left: 1rem;
+          width: 87%;
+          // color: $primary;
+          margin: {
+            left: auto;
+            right: auto;
+          }
+          h4,
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* number of lines to show */
+            -webkit-box-orient: vertical;
+            color: white;
+          }
+        }
+      }
+    }
   }
 }
 </style>
 <script>
-// import axios from 'axios'
+import { mapState } from "vuex"
+import Hero from "./Hero.vue"
+import axios from "axios"
+
 export default {
+  components: {
+    Hero
+  },
   data() {
     return {
-      // test: process.env.TITLE,
-      token: "Bearer " + this.$store.state.token,
-      file: null,
-      ingredient: {
-        qty: null,
-        unit: null,
-        name: null,
-        com: null
-      },
-      instruction: null,
-      recipe: {
-        title: null,
-        description: null,
-        ingredients: [],
-        instructions: []
-      }
-    };
+      searchInput: null,
+      results: this.$store.state.recipes,
+      filteredResults: null,
+      filteredIngredients: null
+    }
   },
-  mounted() {},
+  computed: {
+    swiper() {
+      return this.swiperName.$swiper
+    },
+    // State recipes
+    ...mapState(["recipes"])
+  },
+  mounted() {
+    // Loads recipes
+    // Change last parameter to set num of posts
+    this.$store.dispatch("getRecipes")
+  },
   methods: {
-    addIngredient(ing) {
-      // console.log(process.env.VUE_APP_API_URL)
-      this.recipe.ingredients.push(ing);
-      this.ingredient = {
-        qty: null,
-        unit: null,
-        name: null,
-        com: null
-      };
+    onSubmit(input) {
+      this.$router.push("/sök")
+      this.$store.commit("onSearch", input)
     },
-    addInstruction(ins) {
-      console.log(ins);
-      this.recipe.instructions.push(ins);
-      this.instruction = null;
-    },
-    onSubmit() {
-      this.$store.commit("login", this.user);
-    },
-    test() {
-      const axios = require("axios");
-      const fd = new FormData();
+    getResults() {
+      if (this.searchInput) {
+        console.log(this.$store.state.recipes)
 
-      axios({
-        url: `${this.$store.state.apiUrl}wp/v2/media`,
-        method: "POST",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Disposition": 'attachment; filename="file.jpg"',
-          "Authorization": this.token,
-          "Content-Type": "image/jpeg"
-        },
-        data: fd.append("image", this.file, this.file.name)
-      })
-        .then(res => {
-          console.log(res.data);
+        axios({
+          url: `${this.$store.state.apiUrl}wp/v2/recipes?search=${this.searchInput}`,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
         })
-        .catch(err => {
-          console.log(err);
-        });
+          .then(res => {
+            console.log(res.data[0].title)
+            // this.results = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     },
-    handleFileUpload(e) {
-      console.log(e);
-      this.file = e.target.files[0];
-      // fd.append('image', this.file, this.file.name)
-
-      // const fs = require('fs');
-
-      // fetch(`${this.$store.state.apiUrl}wp/v2/media`, {
-      //   body: fd,
-      //   headers: {
-      //     'CURLOPT_HTTPHEADER': [
-      //       'Content-type: application/json',
-      //       'Authorization: Basic ' . token,
-      //       'Content-Disposition: attachment; filename="acme.png"'
-      //       ]
-      //     // "Content-Type": "multipart/form-data",
-      //     // "Authorization": token
-      //   },
-      //   method: 'POST'
-      // });
-    } //
+    filterResults() {
+      this.filteredResults = this.results.filter(res => {
+        return res.title.rendered
+          .toLowerCase()
+          .startsWith(this.searchInput.toLowerCase())
+      })
+      // this.filteredIngredients = this.results.filter(res => {
+      //   res.meta_box.ingredient_list.filter(ing => {
+      //     console.log(ing)
+      //     ing.name.toLowerCase().startsWith(this.searchInput.toLowerCase())
+      //   })
+      // })
+      // console.log(this.filteredIngredients)
+    }
   }
-};
+}
 </script>

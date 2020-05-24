@@ -78,48 +78,50 @@
 </template>
 
 <script>
-  export default {
-    name: 'HelloWorld',
-    props: {
-      msg: String,
-    },
-    data() {
-      return {
-        posts: []
-      }
-    },
-    methods: {
-      strippedContent(content) {
-        let regex = /(<([^>]+)>)/ig;
-        return content.replace(regex, "");
-      }
-    },
-    created() {
-      this.$http.get('wp/v2/posts').then(res => {
+export default {
+  name: "HelloWorld",
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      posts: []
+    }
+  },
+  methods: {
+    strippedContent(content) {
+      let regex = /(<([^>]+)>)/gi
+      return content.replace(regex, "")
+    }
+  },
+  created() {
+    this.$http.get("wp/v2/posts").then(
+      res => {
         this.posts = res.data
         // console.log(this.posts)
-      }, error => alert(error))
-    }
+      },
+      error => alert(error)
+    )
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
-  h3 {
-    margin: 40px 0 0;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
-  }
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
 </style>

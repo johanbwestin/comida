@@ -23,6 +23,8 @@
     "@vue/cli-service": "~4.3.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
@@ -31,22 +33,72 @@
     "webpack-chain": "^6.4.0"
   },
   "eslintConfig": {
-    "root": true,
     "env": {
+      "browser": true,
       "node": true
     },
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
     ],
+    "overrides": [
+      {
+        "files": "*.vue",
+        "rules": {
+          "indent": "off"
+        }
+      }
+    ],
     "parserOptions": {
+      "sourceType": "module",
       "parser": "babel-eslint"
     },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "ignorePatterns": [
+      "bundle.js"
+    ],
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ],
+      "no-console": "off",
+      "semi": [
+        2,
+        "never"
+      ],
+      "vue/no-v-html": "off",
+      "vue/script-indent": [
+        "error",
+        2,
+        {
+          "baseIndent": 0
+        }
+      ],
+      "vue/html-self-closing": [
+        "error",
+        {
+          "html": {
+            "void": "always",
+            "normal": "never",
+            "component": "always"
+          },
+          "svg": "always",
+          "math": "always"
+        }
+      ],
+      "vue/max-attributes-per-line": [
+        "error",
+        {
+          "singleline": 5,
+          "multiline": {
+            "max": 1,
+            "allowFirstLine": true
+          }
+        }
+      ]
+    },
+    "plugins": [
+      "prettier"
+    ]
+  }
 }
