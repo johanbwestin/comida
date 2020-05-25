@@ -142,6 +142,7 @@ if ($_POST) {
           <!-- <input class="register-btn" type="submit" name="submit"> -->
           <button class="register-btn" type="submit" name="submit"><span>Registrera</span></button>
           <p>Redan medlem? Logga in <a href="http://localhost:8080/logga-in">här</a></p>
+          <p>Eller fortsätt som <a href="http://localhost:8080/logga-in">gäst</a></p>
         </div>
       </form>
     </div>
@@ -178,7 +179,7 @@ if ($_POST) {
   .login-section {
     position: fixed;
     z-index: 2;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.4);
     height: 100vh;
     width: 100%;
     display: flex;
@@ -193,6 +194,9 @@ if ($_POST) {
     position: absolute;
     width: 25%;
     background-color: white;
+    -webkit-box-shadow: 0 8px 38px -6px #515052;
+    -moz-box-shadow: 0 8px 38px -6px #515052;
+    box-shadow: 0 8px 38px -6px #515052;
   }
 
   form {

@@ -106,6 +106,7 @@
             width: 5rem;
             display: flex;
             justify-content: center;
+            align-items: center;
             border: none;
           }
         }

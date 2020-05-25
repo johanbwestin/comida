@@ -5,6 +5,13 @@
       <div class="title-container">
         <h2>Recept</h2>
         <span class="line"></span>
+        <hollow-dots-spinner
+          v-if="$store.state.loading"
+          :animation-duration="1200"
+          :circles-num="3"
+          :circle-size="15"
+          color="#EC4E20"
+        />
       </div>
       <div v-for="(recipe, index) in recipes" :key="index" class="card-container">
         <router-link :to="'/recept/' + recipe.id">
@@ -24,6 +31,7 @@
         </router-link>
       </div>
     </div>
+      <button class="pagination" @click="addPosts"><p>Visa fler</p></button>
   </section>
 </template>
 <style lang="scss" scoped>
@@ -36,6 +44,14 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  .pagination {
+    background-color: $primary;
+    border: none;
+    p {
+      color: white;
+      padding: 0.5rem;
+    }
+  }
   .recipes-container {
     display: flex;
     flex-direction: row;
@@ -130,6 +146,7 @@ export default {
   },
   data() {
     return {
+      numOfPosts: 10,
       searchInput: null,
       results: this.$store.state.recipes,
       filteredResults: null,
@@ -146,9 +163,14 @@ export default {
   mounted() {
     // Loads recipes
     // Change last parameter to set num of posts
-    this.$store.dispatch("getRecipes")
+    this.$store.dispatch("getRecipes", this.numOfPosts)
   },
   methods: {
+    addPosts() {
+      this.numOfPosts += 5 
+      this.$store.dispatch("getRecipes", this.numOfPosts)
+
+    },
     onSubmit(input) {
       this.$router.push("/sök")
       this.$store.commit("onSearch", input)

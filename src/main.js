@@ -10,17 +10,6 @@ Vue.http.options.root = process.env.VUE_APP_API_URL
 
 Vue.config.productionTip = false
 
-Vue.directive('on-scroll', {
-  inserted: function (el, binding) {
-    let f = function (evt) {
-      if (binding.value(evt, el)) {
-        window.removeEventListener('scroll', f)
-      }
-    }
-    window.addEventListener('scroll', f)
-  }
-})
-
 new Vue({
   router,
   store,

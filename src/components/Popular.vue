@@ -74,7 +74,7 @@
   .popular-card {
     width: 33.33333333333333333333333333333333333333333%;
     .card-container {
-    width: 90%;
+      width: 90%;
       position: relative;
       display: flex;
       align-items: center;
@@ -102,7 +102,8 @@
           left: auto;
           right: auto;
         }
-        h4, p{
+        h4,
+        p {
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -124,7 +125,7 @@ import { mapState } from "vuex"
 export default {
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
   },
   directives: {
     swiper: directive

@@ -27,6 +27,10 @@
             Inte medlem? Registrera
             <a href="http://localhost/comida/admin/registrera/">här!</a>
           </p>
+          <p>
+            Eller fortsätt som
+            <router-link to="/hem">gäst</router-link>
+          </p>
         </div>
         <div class="error-container" v-if="$store.state.message">
           <p class="error">{{strippedContent($store.state.message)}}</p>
@@ -45,7 +49,7 @@
   .login-container {
     position: fixed;
     z-index: 2;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.4);
     // position: fixed;
     height: 100vh;
     width: 100%;
@@ -60,6 +64,9 @@
       height: 46vh;
       width: 25%;
       background-color: $bg;
+      -webkit-box-shadow: 0 8px 38px -6px $p-primary;
+      -moz-box-shadow: 0 8px 38px -6px $p-primary;
+      box-shadow: 0 8px 38px -6px $p-primary;
       form {
         display: flex;
         flex-direction: column;

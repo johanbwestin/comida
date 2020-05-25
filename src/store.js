@@ -12,20 +12,26 @@ export default new Vuex.Store({
   actions: {
     getRecipes({ commit }, numOfPosts) {
       axios({
-        url: `${this.state.apiUrl}wp/v2/recipes/?per_page=100`,
+        url: `${this.state.apiUrl}wp/v2/recipes/?per_page=${numOfPosts}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
       })
         .then(res => {
+          console.log(res)
           let recipes
-          if(!numOfPosts) {
-            console.log('hej', res.data.length)
-            recipes = res.data
+          if(res.status === 200) {
+            commit('onLoad', false)
           } else {
-            recipes = res.data.splice(0, numOfPosts)
+            commit('onLoad', true)
           }
+          // if(!numOfPosts) {
+          // console.log('hej', res.data.length)
+          recipes = res.data
+          // } else {
+          //   recipes = res.data.splice(0, numOfPosts)
+          // }
           commit("setRecipes", recipes)
         })
         .catch(err => {
@@ -41,6 +47,7 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
+          console.log(res)
           const recipes = res.data
           commit('setPopularRecipes', {recipes, numOfPosts})
         })
@@ -50,6 +57,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    onLoad(state, isLoading) {
+      state.loading = isLoading
+    },
     onSearch(state, params) {
       // params.get("search")
       // console.log(params.get("search"))
@@ -158,6 +168,7 @@ export default new Vuex.Store({
   },
 
   state: {
+    loading: true,
     results: [],
     popularRecipes: [],
     recipes: [],

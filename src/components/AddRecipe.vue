@@ -43,7 +43,13 @@
             <label class="w3-text-blue">
               <h4>Lägg till bild</h4>
             </label>
-            <input v-if="uploadRdy" type="file" name="file" @change="handleFileUpload" accept="image/*" />
+            <input
+              v-if="uploadRdy"
+              type="file"
+              name="file"
+              @change="handleFileUpload"
+              accept="image/*"
+            />
           </div>
           <div class="input-container">
             <label class="w3-text-blue">
@@ -126,6 +132,15 @@
           </div>
         </form>
       </div>
+      <!-- <div class="loader-bg">
+        <hollow-dots-spinner
+          v-if="$store.state.loading"
+          :animation-duration="1200"
+          :circles-num="3"
+          :circle-size="15"
+          color="#EC4E20"
+        />
+      </div> -->
       <div class="preview-container">
         <div class="header-container">
           <h2>Förhandsvisning</h2>
@@ -283,10 +298,31 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    position: relative;
     margin: {
       left: 10%;
       right: 10%;
     }
+    // .loader-bg {
+    //   position: fixed;
+    //   top: 0;
+    //   left:0;
+    //   height: 100vh;
+    //   width: 100%;
+    //   z-index: 2;
+    //   background-color: rgba(255,255,255, 0.4);
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   .hollow-dots-spinner {
+    //     // display: flex;
+    //     flex-direction: column;
+    //     justify-content: center;
+    //     align-items: center;
+    //     width: 20%;
+    //     height: 20%;
+    //   }
+    // }
     .preview-container {
       margin-top: 3rem;
       width: 35%;
@@ -490,9 +526,11 @@
 <script>
 import axios from "axios"
 import SmallHero from "./SmallHero.vue"
+// import { HollowDotsSpinner } from "epic-spinners"
 
 export default {
   components: {
+    // HollowDotsSpinner,
     SmallHero
   },
   data() {
@@ -547,8 +585,8 @@ export default {
   mounted() {
     // this.title.charAt(0)
     // console.log(this.title)
-    if(!this.$store.state.token) {
-      this.$router.push({ name: 'home' }).catch(() => { })
+    if (!this.$store.state.token) {
+      this.$router.push({ name: "home" }).catch(() => {})
     }
   },
   methods: {
@@ -579,8 +617,6 @@ export default {
       }
       this.file = null
       this.imageUrl = null
-      
-
     },
     editIngredient(index, data) {
       this.isEditIng = !this.isEditIng
@@ -667,6 +703,8 @@ export default {
       const fd = new FormData()
       // const file = this.file.target.files[0]
       fd.append("file", this.file)
+      this.$store.state.loading = true
+
       // console.log(this.file);
       if (this.file) {
         axios({
@@ -705,6 +743,7 @@ export default {
                 if (res.status === 201) {
                   this.resMsg.success = true
                   this.resMsg.id = res.data.id
+                  this.$store.state.loading = false
                 }
                 this.$store.dispatch("getRecipes")
               })
