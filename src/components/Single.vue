@@ -7,8 +7,6 @@
           <h2 v-if="title">{{title}}</h2>
           <span class="line"></span>
         </div>
-        <!-- <h3 v-if="recipe.title">{{recipe.title}}</h3> -->
-        <!-- <p v-if="recipe.description">{{recipe.description}}</p> -->
         <div v-if="imageUrl">
           <img :src="imageUrl" :alt="recipe.title" />
         </div>
@@ -32,7 +30,6 @@
 <style lang="scss" scoped>
 .recipe-section {
   width: 100%;
-  // height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -62,9 +59,6 @@
           background-color: $thirdary;
         }
       }
-      img {
-        // height: 10rem;
-      }
     }
   }
 }
@@ -83,7 +77,6 @@ export default {
       id: this.$route.params.id,
       imageUrl: null,
       title: "",
-      // token: "Bearer " + this.$store.state.token,
       file: null,
       ingredients: [],
       instructions: [],
@@ -91,10 +84,13 @@ export default {
     }
   },
   mounted() {
-    console.log()
+    // Get recipe data
     this.getRecipe()
+    // Disable loading spinner
+    this.$store.state.loading = false
   },
   methods: {
+    // Gets recipe data based on id
     getRecipe() {
       axios({
         url: `${this.apiUrl}wp/v2/recipes/${this.id}`,
@@ -105,14 +101,12 @@ export default {
       })
         .then(res => {
           if(res) {
-            // console.log(res.data.better_featured_image.media_details.sizes.large.source_url)
             this.ingredients = res.data.meta_box.ingredient_list
             this.instructions = res.data.meta_box.instruction_list
             this.title = res.data.title.rendered
             if (res.data.better_featured_image) {
               this.imageUrl = res.data.better_featured_image.media_details.sizes.medium.source_url
             }
-            console.log('from single ', this.title)
           }
         })
         .catch(err => {

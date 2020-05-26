@@ -13,7 +13,6 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  // base: process.env.BASE_URL,
   routes: [
     {
       component: Home,
@@ -23,34 +22,41 @@ export default new Router({
     },
     {
       component: Recipes,
+      name: 'recipe',
       path: '/recept',
       props: true
     },
     {
       component: AddRecipe,
+      name: 'addRecipe',
       path: '/recept/nytt',
       props: true
     },
     {
       component: Single,
+      name: 'single',
       path: '/recept/:id',
       props: true
     },
     {
       component: Search,
+      name: 'search',
       path: '/sök',
       props: true
     },
     {
       component: Login,
+      name: 'login',
       path: '/logga-in'
     },
     {
       component: Profile,
+      name: 'profile',
       path: '/profil'
     },
     {
       component: Register,
+      name: 'register',
       path: '/registrera'
     }
   ]

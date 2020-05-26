@@ -1,11 +1,6 @@
 <template>
   <div id="app">
     <Menu />
-    <!-- <Hero /> -->
-    <!-- <Home /> -->
-    <!-- <Register />
-    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-
     <div v-if="$store.state.loading" class="loader-bg">
       <hollow-dots-spinner
         :animation-duration="1200"
@@ -18,37 +13,10 @@
     <Foot />
   </div>
 </template>
-
-<script>
-// import HelloWorld from './components/HelloWorld.vue'
-import Menu from "./components/Menu.vue"
-import Foot from "./components/Foot.vue"
-import { HollowDotsSpinner } from "epic-spinners"
-
-export default {
-  name: "App",
-  components: {
-    Menu,
-    Foot,
-    HollowDotsSpinner
-    // HelloWorld,
-  },
-  mounted() {
-    // console.log(this.$route.path)
-    if (this.$route.path === "/") {
-      this.$router.push("/hem").catch(() => {})
-    }
-  }
-}
-</script>
-
 <style lang="scss">
 #app {
   overflow-x: hidden;
   scroll-behavior: smooth;
-  // -webkit-font-smoothing: antialiased;
-  // -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
   .content-section {
     padding-bottom: 10rem;
   }
@@ -64,7 +32,6 @@ export default {
     justify-content: center;
     align-items: center;
     .hollow-dots-spinner {
-      // display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -74,3 +41,22 @@ export default {
   }
 }
 </style>
+<script>
+import Menu from "./components/Menu.vue"
+import Foot from "./components/Foot.vue"
+import { HollowDotsSpinner } from "epic-spinners"
+
+export default {
+  name: "App",
+  components: {
+    Menu,
+    Foot,
+    HollowDotsSpinner
+  },
+  mounted() {
+    if (this.$route.path === "/") {
+      this.$router.push("/hem").catch(() => {})
+    }
+  }
+}
+</script>

@@ -50,7 +50,6 @@
     position: fixed;
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.4);
-    // position: fixed;
     height: 100vh;
     width: 100%;
     display: flex;
@@ -61,7 +60,6 @@
       flex-direction: column;
       align-items: center;
       position: absolute;
-      // height: 46vh;
       background-color: $bg;
       -webkit-box-shadow: 0 8px 38px -6px $p-primary;
       -moz-box-shadow: 0 8px 38px -6px $p-primary;
@@ -171,7 +169,6 @@
           display: inline-block;
           width: 20px;
           height: 3px;
-          // margin-top: 8px;
           background: white;
         }
       }
@@ -195,8 +192,8 @@ export default {
   },
   mounted() {},
   methods: {
+    // Handles login.
     onSubmit() {
-      console.log(this.validateForm())
       if (this.validateForm()) {
         this.$store.commit("userLogin", this.user)
       } else {
@@ -208,6 +205,7 @@ export default {
         }
       }
     },
+    // Handles basic validation
     validateForm() {
       if (!this.user.username || !this.user.password) {
         return false
@@ -215,6 +213,7 @@ export default {
         return true
       }
     },
+    // Removes unwanted characters
     strippedContent(content) {
       let regex = /(<([^>]+)>)/gi
       return content.replace(regex, "")

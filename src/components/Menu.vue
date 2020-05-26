@@ -15,13 +15,10 @@
         <li class="menu-item" v-if="this.$store.state.token">
           <router-link to="/recept/nytt">
             <p class="menu-link">Nytt recept</p>
-            <!-- <img class="icon" alt="List" src="../assets/media/svg/list.svg" /> -->
           </router-link>
         </li>
         <li class="menu-item" @click="logOut" v-if="this.$store.state.token">
-          <!-- <router-link to="/"> -->
           <p class="menu-link">Logga ut</p>
-          <!-- </router-link> -->
         </li>
         <li class="menu-item" v-if="!this.$store.state.token">
           <router-link to="/logga-in">
@@ -61,7 +58,6 @@
       flex: 1;
       flex-direction: row;
       align-items: center;
-      // margin-left: 50px;
       color: $primary;
       text-decoration: none;
       margin-left: 20px;
@@ -77,8 +73,7 @@
       .line {
         display: inline-block;
         width: 20px;
-        height: 3px;
-        // margin-top: 8px;
+        height: 4px;
         background: $primary;
       }
     }
@@ -145,6 +140,8 @@ export default {
     }
   },
   created() {
+    // Gets menu items from wp api. Makes it possible to add menu items via wp admin panel. 
+    // This is still work in progress.
     this.$http.get("wp/v2/menu").then(
       res => {
         this.menuItems = res.data
@@ -157,6 +154,7 @@ export default {
   },
   mounted() {},
   methods: {
+    // Handles scroll events
     handleScroll() {
       // when the user scrolls, check the pageYOffset
       if (window.pageYOffset > 0) {
@@ -167,7 +165,7 @@ export default {
         if (!this.view.atTopOfPage) this.view.atTopOfPage = true
       }
     },
-    hamburgerHandler() {},
+    // Handles logout
     logOut() {
       localStorage.clear()
       this.$store.state.token = null

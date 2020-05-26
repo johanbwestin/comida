@@ -268,9 +268,6 @@
       width: 20%;
       height: 20%;
       background-color: white;
-      p {
-        // width: 100%;
-      }
       .btn-container {
         margin-top: 1rem;
         button {
@@ -326,9 +323,6 @@
       ol {
         li {
           .flex-container {
-            // list-style-type: disc;
-            // // list-style: circle;
-            // display: list-item;
             display: flex;
             justify-content: space-between;
             margin-top: 0.5rem;
@@ -415,8 +409,6 @@
         .button-container {
           position: relative;
           margin: {
-            // left: auto;
-            // right: auto;
             top: 1.4rem;
           }
           width: 70%;
@@ -480,12 +472,9 @@
         }
       }
       .header-container {
-        // justify-content: center;
         align-items: center;
-        // display: flex;
         height: 15%;
         width: 100%;
-        // background-color: $primary;
         h3 {
           padding: 5px;
           color: $bg;
@@ -560,14 +549,13 @@ export default {
     }
   },
   mounted() {
-    // this.title.charAt(0)
-    // console.log(this.title)
     this.$store.state.loading = false
     if (!this.$store.state.token) {
       this.$router.push({ name: "home" }).catch(() => {})
     }
   },
   methods: {
+    // Resets recipe if user choose to create another recipe
     resetRecipe() {
       this.uploadRdy = false
       this.$nextTick(() => {
@@ -596,6 +584,7 @@ export default {
       this.file = null
       this.imageUrl = null
     },
+    // Edits ingredients before it's sent to backend
     editIngredient(index, data) {
       this.isEditIng = !this.isEditIng
       this.ingIndex = index
@@ -620,11 +609,11 @@ export default {
           com: null
         }
       }
-
       if (this.ingIndex === index && data) {
         this.ingIndex = null
       }
     },
+    // Edits instructions before it's sent to the backend
     editInstruction(index, data) {
       this.isEditIns = !this.isEditIns
       this.insIndex = index
@@ -638,6 +627,7 @@ export default {
         this.insIndex = null
       }
     },
+    // Delete function for ingredients and instructions
     deleteItem(index, type) {
       if (type === "ingredient") {
         this.recipe.ingredients_list.splice(index, 1)
@@ -646,8 +636,8 @@ export default {
         this.recipe.instructions_list.splice(index, 1)
       }
     },
+    // Adds ingredient
     addIngredient(ing) {
-      // console.log(ing)
       if (ing.qty && ing.unit && ing.name) {
         this.recipe.ingredients_list.push(ing)
         this.ingredient = {
@@ -663,8 +653,8 @@ export default {
         this.ingMsg.success = null
       }
     },
+    // Adds instruction
     addInstruction(ins) {
-      // console.log(ins)
       if (ins.instruction) {
         this.recipe.instructions_list.push(ins)
         this.instruction = {
@@ -677,13 +667,12 @@ export default {
         this.insMsg.success = null
       }
     },
+    // Submits data with or without image to wordpress api
     onSubmit() {
       const fd = new FormData()
-      // const file = this.file.target.files[0]
       fd.append("file", this.file)
       this.$store.state.loading = true
 
-      // console.log(this.file);
       if (this.file) {
         axios({
           url: `${this.$store.state.apiUrl}wp/v2/media`,
@@ -705,7 +694,6 @@ export default {
                 views: 0
               }
             }
-            // console.log(recipe);
 
             axios({
               url: `${this.$store.state.apiUrl}wp/v2/recipes`,
@@ -717,7 +705,6 @@ export default {
               data: recipe
             })
               .then(res => {
-                console.log(res.data)
                 if (res.status === 201) {
                   this.resMsg.success = true
                   this.resMsg.id = res.data.id
@@ -753,7 +740,6 @@ export default {
           data: recipe
         })
           .then(res => {
-            console.log(res)
             if (res.status === 201) {
               this.resMsg.success = true
               this.resMsg.id = res.data.id
@@ -765,6 +751,7 @@ export default {
           })
       }
     },
+    // Handles images for preview section and post
     handleFileUpload(e) {
       this.file = e.target.files[0]
       const fileReader = new FileReader()

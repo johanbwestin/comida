@@ -34,13 +34,9 @@ export default {
   },
 
   data() {
-    return {
-      isLoggedIn: false
-    }
+    return {}
   },
-  mounted() {
-    this.$store.commit("checkStatus")
-  },
+  mounted() {},
   methods: {}
 }
 </script>

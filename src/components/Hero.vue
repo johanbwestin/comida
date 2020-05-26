@@ -78,11 +78,16 @@
           margin-bottom: 10px;
           color: $primary;
         }
+        h1 {
+          padding: 5px;
+          color: $primary;
+          margin-bottom: 10px;
+          text-transform: capitalize;
+        }
         .line {
           display: inline-block;
-          width: 25px;
-          height: 5px;
-          // margin-top: 8px;
+          width: 20px;
+          height: 4px;
           background: $primary;
         }
       }
@@ -163,6 +168,7 @@ export default {
   },
   mounted() {},
   methods: {
+    // Get search resaults from wordpress api for autocomplete
     getResults() {
       if (this.searchInput) {
         this.$store.state.results = []
@@ -175,7 +181,6 @@ export default {
         })
           .then(res => {
             this.results = res.data
-            console.log("results:", this.results)
           })
           .catch(err => {
             console.log(err)
@@ -190,13 +195,13 @@ export default {
         })
           .then(res => {
             this.results = res.data
-            // console.log("results:", this.results)
           })
           .catch(err => {
             console.log(err)
           })
       }
     },
+    // Pushes user to search page if user submits with search input as argument
     onSubmit(input) {
       this.$router.push("/sök")
       this.$store.commit("onSearch", input)

@@ -9,17 +9,17 @@
     </div>
     <div v-if="isActive" class="menu">
       <div class="menu-container">
-        <div @click="onClick">
+        <div @click="onClick" class="menu-item">
           <router-link to="/hem">
             <p class="menu-link">Hem</p>
           </router-link>
         </div>
-        <div @click="onClick">
+        <div @click="onClick" class="menu-item">
           <router-link to="/recept">
             <p class="menu-link">Recept</p>
           </router-link>
         </div>
-        <div @click="onClick" v-if="this.$store.state.token">
+        <div @click="onClick" v-if="this.$store.state.token" class="menu-item">
           <router-link to="/recept/nytt">
             <p class="menu-link">Nytt recept</p>
           </router-link>
@@ -32,7 +32,7 @@
             <p class="menu-link">Logga in</p>
           </router-link>
         </div>
-        <div @click="onClick" v-if="this.$store.state.token">
+        <div @click="onClick" v-if="this.$store.state.token" class="menu-item">
           <router-link to="/profil">
             <p class="menu-link">Profil</p>
           </router-link>
@@ -86,7 +86,7 @@
     left: 0;
     top: 5rem;
     position: fixed;
-    background-color: $bg;
+    background-color: rgba(255, 255, 255, 0.92);
     height: 100vh;
     width: 100%;
     .menu-container {
@@ -96,17 +96,15 @@
       justify-content: center;
       margin-bottom: 10rem;
       .menu-item {
+        font-size: 1.5rem;
+        p {
+          color: $primary;
+        }
         a {
           text-decoration: none;
-          &:hover {
-            text-decoration: underline;
-            text-shadow: $shadow-hover;
-          }
         }
       }
     }
-  }
-  .hamburger {
   }
 }
 </style>
@@ -114,26 +112,18 @@
 export default {
   data() {
     return {
-      shadowColor: "",
-      beforeActive: false,
       isActive: false
     }
   },
-  mounted() {
-    // console.log(this.$waypointMap)
-  },
+  mounted() {},
   methods: {
+    // Handles logout
     logOut() {
       localStorage.clear()
       this.$store.state.token = null
       this.$store.commit("checkStatus")
     },
-    mouseOver() {
-      this.shadowColor = "#515052"
-    },
-    mouseLeave() {
-      this.shadowColor = ""
-    },
+    // Handles hamburger menu display
     onClick() {
       if (!this.isActive) {
         this.isActive = !this.isActive

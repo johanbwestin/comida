@@ -1,8 +1,8 @@
 <template>
-  <section class="recipe-section" style>
+  <section class="profile-section" style>
     <SmallHero />
     <div class="content-container">
-      <div class="recipe-container">
+      <div class="profile-container">
         <div class="header-container">
           <h2>Sidan kommer att vara tillgänglig inom kort!</h2>
         </div>
@@ -11,9 +11,8 @@
   </section>
 </template>
 <style lang="scss" scoped>
-.recipe-section {
+.profile-section {
   width: 100%;
-  // height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,7 +23,7 @@
     justify-content: space-between;
     flex-direction: row;
     min-height: 62vh;
-    .recipe-container {
+    .profile-container {
       margin-top: 3rem;
       width: 100%;
       .header-container {
@@ -49,13 +48,11 @@ export default {
     SmallHero
   },
   data() {
-    return {
-    }
+    return {}
   },
   mounted() {
     this.$store.state.loading = false
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>

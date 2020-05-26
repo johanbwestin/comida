@@ -3,9 +3,6 @@
     <SmallHero title="Sök" />
     <div class="recipes-container">
       <div class="search-container">
-        <!-- <label for="search">
-          <h3>Sök</h3>
-        </label>-->
         <div class="input-container">
           <input
             v-model="searchInput"
@@ -206,14 +203,12 @@
             justify-content: center;
             overflow: hidden;
             img {
-              // height: 100%;
               width: 100%;
             }
           }
           .text-container {
             position: absolute;
             bottom: 1rem;
-            // left: 1rem;
             width: 87%;
             color: white;
             margin: {
@@ -256,8 +251,6 @@ export default {
       filteredResults: null,
       filteredIngredients: null,
       hasUrlParams: null
-      // recipes: ,
-      // Some Swiper option/callback...
     }
   },
   computed: {
@@ -271,13 +264,9 @@ export default {
     // Loads recipes
     // Change last parameter to set num of posts
     this.$store.dispatch("getRecipes")
-    // const params = new URLSearchParams(window.location.search)
-    // this.hasUrlParams = params.has("search")
-    // if (params.has("search")) {
-    //   this.onSubmit(params.get("search"))
-    // }
   },
   methods: {
+    // Get search results from wordpress api for autocomplete
     getResults() {
       if (this.searchInput) {
         this.$store.state.results = []
@@ -290,7 +279,6 @@ export default {
         })
           .then(res => {
             this.results = res.data
-            console.log("results:", this.results)
           })
           .catch(err => {
             console.log(err)
@@ -305,31 +293,16 @@ export default {
         })
           .then(res => {
             this.results = res.data
-            // console.log("results:", this.results)
           })
           .catch(err => {
             console.log(err)
           })
       }
     },
+    // Lists all results on submit
     onSubmit(input) {
-      // this.$router.push("/sök").catch(err => console.log(err))
       this.searchInput = ""
       this.$store.commit("onSearch", input)
-    },
-    filterResults() {
-      this.filteredResults = this.results.filter(res => {
-        return res.title.rendered
-          .toLowerCase()
-          .startsWith(this.searchInput.toLowerCase())
-      })
-      // this.filteredIngredients = this.results.filter(res => {
-      //   res.meta_box.ingredient_list.filter(ing => {
-      //     console.log(ing)
-      //     ing.name.toLowerCase().startsWith(this.searchInput.toLowerCase())
-      //   })
-      // })
-      // console.log(this.filteredIngredients)
     }
   }
 }

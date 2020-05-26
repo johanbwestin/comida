@@ -10,7 +10,7 @@ if ($_POST) {
   $password = $wpdb->escape($_POST['password']);
   $confPassword = $wpdb->escape($_POST['confirm-password']);
   $terms = $_POST['terms'];
-
+  // Authentication
   $error = array();
   if (strpos($username, ' ') !== FALSE) {
     $error['username_space'] = "Användarnamnet har ett ogiltigt tecken";
@@ -39,17 +39,13 @@ if ($_POST) {
   if (strcmp($password, $confPassword) !== 0) {
     $error['password'] = "Lösenordet matchar inte";
   }
-
+  // Creates user if no errors
   if (count($error) == 0 && $terms) {
     wp_create_user($username, $password, $email);
     echo "User Created Successfully";
     header("Location: http://localhost:8080/logga-in");
     exit();
   }
-  // else {
-  //   print_r($error);
-  //   $errors = $error;
-  // }
 }
 ?>
 <!--[if !(IE 8) ]><!-->
@@ -139,7 +135,6 @@ if ($_POST) {
           <?php } ?>
         </div>
         <div class="button-container">
-          <!-- <input class="register-btn" type="submit" name="submit"> -->
           <button class="register-btn" type="submit" name="submit"><span>Registrera</span></button>
           <p>Redan medlem? Logga in <a href="http://localhost:8080/logga-in">här</a></p>
           <p>Eller fortsätt som <a href="http://localhost:8080/hem">gäst</a></p>
@@ -167,8 +162,6 @@ if ($_POST) {
     color: white;
   }
 
-
-
   p,
   span,
   a,
@@ -188,6 +181,7 @@ if ($_POST) {
   }
 
   .form-container {
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -279,6 +273,25 @@ if ($_POST) {
     width: 20px;
     height: 3px;
     background: white;
+  }
+
+  @media screen and (max-width: 1100px) {
+    .form-container {
+      width: 60%;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .form-container {
+      width: 80%;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .form-container {
+      width: 100%;
+      height: 100vh;
+    }
   }
 </style>
 

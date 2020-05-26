@@ -1,5 +1,5 @@
 <?php
-// CORS
+// Allow cors for frontend application. This is for later use
 // add_action('init', 'handle_preflight');
 // function handle_preflight() {
 //     $origin = get_http_origin();
@@ -31,7 +31,8 @@
 //     // Do Something
 // }
 
-// Posttypes
+// Custom posttype for Recipes
+add_action('init', 'recipe_post');
 function recipe_post()
 {
   $labels = array(
@@ -61,39 +62,9 @@ function recipe_post()
   );
   register_post_type('recipes', $args);
 }
-add_action('init', 'recipe_post');
-// Ingrediens
-function ingredient_post()
-{
-  $labels = array(
-    'name'               => _x('Ingredients', 'post type general name'),
-    'singular_name'      => _x('Ingredient', 'post type singular name'),
-    'add_new'            => _x('Add New', 'ingredient'),
-    'add_new_item'       => __('Add New Ingredients'),
-    'edit_item'          => __('Edit Ingredient'),
-    'new_item'           => __('New Ingredient'),
-    'all_items'          => __('All Ingredients'),
-    'view_item'          => __('View Ingredient'),
-    'search_items'       => __('Search Ingredients'),
-    'not_found'          => __('No ingredient found'),
-    'not_found_in_trash' => __('No ingredient found in the Trash'),
-    'parent_item_colon'  => '',
-    'menu_name'          => 'Ingredient'
-  );
-  $args = array(
-    'labels'        => $labels,
-    'show_in_rest' => true,
-    'description'   => 'Holds ingredients and ingredient specific data',
-    'taxonomies' => array('ingredients'),
-    'public'        => true,
-    'menu_position' => 5,
-    'supports'      => array('title'),
-    'has_archive'   => true,
-  );
-  register_post_type('ingredients', $args);
-}
 
-add_action('init', 'ingredient_post');
+// Meta box custom fields
+add_filter('rwmb_meta_boxes', 'your_prefix_get_meta_box');
 
 function your_prefix_get_meta_box($meta_boxes)
 {
@@ -133,7 +104,6 @@ function your_prefix_get_meta_box($meta_boxes)
 
   return $meta_boxes;
 }
-add_filter('rwmb_meta_boxes', 'your_prefix_get_meta_box');
 
 // Menu
 register_nav_menus(
@@ -144,14 +114,7 @@ register_nav_menus(
   )
 );
 
-// create custom function to return nav menu
-function custom_wp_menu()
-{
-  // Replace your menu name, slug or ID carefully
-  return wp_get_nav_menu_items('main menu');
-}
-
-// create new endpoint route
+// Menu custom endpoint
 add_action('rest_api_init', function () {
   register_rest_route('wp/v2', 'menu', array(
     'methods' => 'GET',
@@ -160,6 +123,13 @@ add_action('rest_api_init', function () {
   ));
 });
 
+// Menu callbackfunction, returns nav menu
+function custom_wp_menu()
+{
+  // menu name
+  return wp_get_nav_menu_items('main menu');
+}
+
 // Views custom endpoint
 add_action('rest_api_init', function () {
   register_rest_route('base', '/views/(?P<id>\d+)', array(
@@ -167,6 +137,8 @@ add_action('rest_api_init', function () {
     'callback' => 'post_view_counter_function',
   ));
 });
+
+// View counter callback function
 function post_view_counter_function(WP_REST_Request $request)
 {
   $post_id = $request['id'];
@@ -179,128 +151,3 @@ function post_view_counter_function(WP_REST_Request $request)
     return $views;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // Search custom endpoint
-// function namespace_register_search_route() {
-//   register_rest_route('namespace/v1', '/search', [
-//       'methods' => WP_REST_Server::READABLE,
-//       'callback' => 'namespace_ajax_search',
-//       'args' => namespace_get_search_args()
-//   ]);
-// }
-// add_action( 'rest_api_init', 'namespace_register_search_route');
-// /**
-// * Define the arguments our endpoint receives.
-// */
-// function namespace_get_search_args() {
-//   $args = [];
-//   $args['s'] = [
-//      'description' => esc_html__( 'The search term.', 'namespace' ),
-//      'type'        => 'string',
-//  ];
-//  return $args;
-// }
-// /**
-// * Use the request data to find the posts we
-// * are looking for and prepare them for use
-// * on the front end.
-// */
-// function namespace_ajax_search( $request ) {
-//   $posts = [];
-//   $results = [];
-//   // check for a search term
-//   if( isset($request['s'])) :
-//       // get posts
-//       $posts = get_posts([
-//           'posts_per_page' => 5,
-//           'post_type' => ['recipes'],
-//           's' => $request['s'],
-//       ]);
-//       // set up the data I want to return
-//       foreach($posts as $post):
-//           $results[] = [
-//               'title' => $post->post_title,
-//               'link' => get_permalink( $post->ID )
-//           ];
-//       endforeach;
-//   endif;
-//   if( empty($results) ) :
-//       return new WP_Error( 'front_end_ajax_search', 'No results');
-//   endif;
-//   return rest_ensure_response( $results );
-// }
-
-
-
-
-
-
-
-// add_action( 'rest_api_init', function () {
-//   register_rest_route( 'base', '/popular/', array(
-//     'methods' => 'GET',
-//     'callback' => 'popular_post',
-//   ));
-// });
-// function popular_post( WP_REST_Request $request ) {
-//   // $post_id = $request['id'];
-//   query_posts('meta_key=views&orderby=meta_value_num&order=DESC');
-// }
-
-
-  // //hook into the init action and call create_ingredients_nonhierarchical_taxonomy when it fires
-   
-  // add_action( 'init', 'create_ingredients_nonhierarchical_taxonomy', 0 );
-   
-  // function create_ingredients_nonhierarchical_taxonomy() {
-   
-  // // Labels part for the GUI
-   
-  //   $labels = array(
-  //     'name' => _x( 'Ingredients', 'taxonomy general name' ),
-  //     'singular_name' => _x( 'Ingredient', 'taxonomy singular name' ),
-  //     'search_items' =>  __( 'Search Ingredients' ),
-  //     'popular_items' => __( 'Popular Ingredients' ),
-  //     'all_items' => __( 'All Ingredients' ),
-  //     'parent_item' => null,
-  //     'parent_item_colon' => null,
-  //     'edit_item' => __( 'Edit Ingredient' ), 
-  //     'update_item' => __( 'Update Ingredient' ),
-  //     'add_new_item' => __( 'Add New Ingredient' ),
-  //     'new_item_name' => __( 'New Ingredient Name' ),
-  //     'separate_items_with_commas' => __( 'Separate ingredients with commas' ),
-  //     'add_or_remove_items' => __( 'Add or remove ingredients' ),
-  //     'choose_from_most_used' => __( 'Choose from the most used ingredients' ),
-  //     'menu_name' => __( 'Ingredients' ),
-  //   ); 
-   
-  // // Now register the non-hierarchical taxonomy like tag
-   
-  //   register_taxonomy('ingredients','post',array(
-  //     'hierarchical' => false,
-  //     'labels' => $labels,
-  //     'show_ui' => true,
-  //     'show_in_rest' => true,
-  //     'show_admin_column' => true,
-  //     'update_count_callback' => '_update_post_term_count',
-  //     'query_var' => true,
-  //     'rewrite' => array( 'slug' => 'ingredient' ),
-  //   ));
-  // }

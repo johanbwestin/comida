@@ -93,11 +93,11 @@
 .footer-section {
   min-height: 50vh;
   background-color: $primary;
-  // margin-top: 10rem;
   position: relative;
   .arrow-container {
     position: absolute;
     top: -2.4rem;
+    z-index: 1;
     height: 5rem;
     width: 100%;
     display: flex;
@@ -153,12 +153,6 @@
           }
         }
       }
-    }
-    .col-one {
-    }
-    .col-two {
-    }
-    .col-three {
     }
   }
 }

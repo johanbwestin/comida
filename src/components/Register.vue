@@ -1,4 +1,5 @@
 <template>
+  <!-- this component is not in use. As of now i'm using a custom wordpress page for registering a new user -->
   <section class="login-section" style>
     <div class="form-container">
       <div class="header-container">
@@ -63,7 +64,6 @@
     flex-direction: column;
     align-items: center;
     position: absolute;
-    // height: 45vh;
     width: 25%;
     background-color: $bg;
     form {
@@ -126,7 +126,6 @@
         display: inline-block;
         width: 20px;
         height: 3px;
-        // margin-top: 8px;
         background: white;
       }
     }
@@ -148,13 +147,14 @@ export default {
   },
   mounted() {},
   methods: {
+    // Submits userdata to wp api
     onSubmit() {
       let userData = { user: this.user, terms: this.terms }
       console.log("on Submit: ", userData)
 
       this.$store.commit("registerUser", userData)
     },
-
+    // removes unwanted characters from a string
     strippedContent(content) {
       let regex = /(<([^>]+)>)/gi
       return content.replace(regex, "")

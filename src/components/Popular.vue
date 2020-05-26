@@ -91,16 +91,13 @@
         justify-content: center;
         overflow: hidden;
         img {
-          // height: 100%;
           width: 100%;
         }
       }
       .text-container {
         position: absolute;
         bottom: 1rem;
-        // left: 1rem;
         width: 87%;
-        // color: $primary;
         margin: {
           left: auto;
           right: auto;
@@ -123,7 +120,6 @@
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper"
 import "swiper/css/swiper.css"
 import { mapState } from "vuex"
-// import axios from "axios"
 
 export default {
   components: {
@@ -135,6 +131,7 @@ export default {
   },
   data() {
     return {
+      // Swiper options
       swiperName: "mySwiper2",
       swiperOptions: {
         slidesPerView: "auto",
@@ -147,7 +144,6 @@ export default {
           prevEl: "#swiper-one-prev"
         },
         spaceBetween: 16
-        // Some Swiper option/callback...
       }
     }
   },
@@ -162,7 +158,6 @@ export default {
     // Loads recipes
     // Change last parameter to set num of posts
     this.$store.dispatch("getPopularRecipes", 6)
-    // console.log(this.recipes)
   },
   methods: {}
 }

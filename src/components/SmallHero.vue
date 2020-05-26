@@ -1,5 +1,5 @@
 <template>
-  <section class="hero-section" style>
+  <section class="small-hero-section" style>
     <div class="top" id="top"></div>
     <div v-if="title" class="header-text-container">
       <span class="line"></span>
@@ -9,7 +9,7 @@
   </section>
 </template>
 <style lang="scss" scoped>
-.hero-section {
+.small-hero-section {
   position: relative;
   height: 35vh;
   width: 100%;
@@ -34,17 +34,13 @@
     h1 {
       padding: 5px;
       color: $primary;
-      margin-bottom: 23px;
+      margin-bottom: 10px;
       text-transform: capitalize;
-      @include breakpoint(md) {
-        margin-bottom: 10px;
-      }
     }
     .line {
       display: inline-block;
-      width: 25px;
+      width: 20px;
       height: 4px;
-      // margin-top: 8px;
       background: $primary;
     }
   }
@@ -58,9 +54,7 @@ export default {
   data() {
     return {}
   },
-  mounted() {
-    // console.log(this.$route);
-  },
+  mounted() {},
   methods: {}
 }
 </script>

@@ -19,6 +19,10 @@ npm run build
 ```
 npm run lint
 ```
+### Wordpress
+```
+Run Wordpress (admin) locally via WAMP or MAMP
+```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

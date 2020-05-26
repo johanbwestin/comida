@@ -23,28 +23,6 @@
         </router-link>
       </swiper-slide>
     </swiper>
-    <!-- <swiper :ref="swiperName" :options="swiperOptions">
-      <swiper-slide v-for="(recipe, index) in recipes" :key="index" class="latest-card">
-        <router-link :to="'/recept/' + recipe.id">
-          <div class="card-container" @click="$store.commit('updateViews', recipe.id)">
-            <div class="img-container">
-              <img
-                v-if="recipe.better_featured_image"
-                :src="
-                  recipe.better_featured_image.media_details.sizes.thumbnail
-                    .source_url
-                "
-                alt
-              />
-            </div>
-            <div class="text-container">
-              <h3 v-if="recipe.title">{{ recipe.title.rendered }}</h3>
-              <p v-if="recipe.meta_box.description">{{ recipe.meta_box.description }}</p>
-            </div>
-          </div>
-        </router-link>
-      </swiper-slide>
-    </swiper>-->
     <div id="swiper-two-pagination" class="swiper-pagination" slot="pagination"></div>
     <div id="swiper-two-prev" class="swiper-button-prev"></div>
     <div id="swiper-two-next" class="swiper-button-next"></div>
@@ -113,16 +91,13 @@
         justify-content: center;
         overflow: hidden;
         img {
-          // height: 100%;
           width: 100%;
         }
       }
       .text-container {
         position: absolute;
         bottom: 1rem;
-        // left: 1rem;
         width: 87%;
-        // color: $primary;
         margin: {
           left: auto;
           right: auto;
@@ -145,7 +120,6 @@
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper"
 import "swiper/css/swiper.css"
 import { mapState } from "vuex"
-// import axios from "axios";
 
 export default {
   components: {
@@ -157,7 +131,7 @@ export default {
   },
   data() {
     return {
-      // recipes: ,
+      // Swiper options
       swiperName: "mySwiper1",
       swiperOptions: {
         slidesPerView: "auto",
@@ -170,7 +144,6 @@ export default {
           prevEl: "#swiper-two-prev"
         },
         spaceBetween: 16
-        // Some Swiper option/callback...
       }
     }
   },
@@ -185,7 +158,6 @@ export default {
     // Loads recipes
     // Change last parameter to set num of posts
     this.$store.dispatch("getRecipes", 6)
-    // console.log(this.recipes)
   },
   methods: {}
 }

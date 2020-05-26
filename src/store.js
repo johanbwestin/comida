@@ -7,7 +7,11 @@ Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
   actions: {
+    // Gets numOfPosts amount of posts from wp api
     getRecipes({ commit }, numOfPosts) {
+      if (!numOfPosts) {
+        numOfPosts = 10
+      }
       axios({
         url: `${this.state.apiUrl}wp/v2/recipes/?per_page=${numOfPosts}`,
         method: "GET",
@@ -16,9 +20,8 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res)
           let recipes
-          if(res.status === 200) {
+          if (res.status === 200) {
             commit('onLoad', false)
           } else {
             commit('onLoad', true)
@@ -30,6 +33,7 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+    // Get all posts for setPopularRecipes() to set the most viewed posts
     getPopularRecipes({ commit }, numOfPosts) {
       axios({
         url: `${this.state.apiUrl}wp/v2/recipes/?per_page=100`,
@@ -39,9 +43,8 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res)
           const recipes = res.data
-          commit('setPopularRecipes', {recipes, numOfPosts})
+          commit('setPopularRecipes', { recipes, numOfPosts })
         })
         .catch(err => {
           console.log(err)
@@ -49,13 +52,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    // Handles loading spinner
     onLoad(state, isLoading) {
       state.loading = isLoading
     },
-    onSearch(state, params) {
-      console.log(params)
+    // Fetches the post from wp api based on searchParams
+    onSearch(state, searchParams) {
       axios({
-        url: `${state.apiUrl}wp/v2/recipes?search=${params}`,
+        url: `${state.apiUrl}wp/v2/recipes?search=${searchParams}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -68,8 +72,8 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+    // Update views on a recipe when recipe is viewed
     updateViews(state, id) {
-      console.log('from updateViews')
       axios({
         url: `${state.apiUrl}base/views/${id}`,
         method: "GET",
@@ -77,17 +81,18 @@ export default new Vuex.Store({
           "Content-Type": "application/json"
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
         })
         .catch(err => {
           console.log(err)
         })
     },
-    setPopularRecipes(state, {recipes, numOfPosts}) {
+    // Sorting out the popular posts based on viewes
+    setPopularRecipes(state, { recipes, numOfPosts }) {
       // Sorting out the top 5 most viewed recipes
-      state.popularRecipes = recipes.sort((a, b) => Number(b.meta_box.views) - Number(a.meta_box.views)).slice(0,numOfPosts)
+      state.popularRecipes = recipes.sort((a, b) => Number(b.meta_box.views) - Number(a.meta_box.views)).slice(0, numOfPosts)
     },
+    // Handles login
     userLogin(state, user) {
       axios(`${state.apiUrl}jwt-auth/v1/token`, {
         data: JSON.stringify(user),
@@ -101,7 +106,6 @@ export default new Vuex.Store({
             state.message = null
           }
           if (res.data.status === 403) {
-            console.log(res.statusText)
             state.message = "Inloggningen misslyckades. Kontrollera dina uppgifter och försök igen."
           }
           if (res.data.token) {
@@ -113,8 +117,9 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+    // Handles user registration. this function is not in use at the moment.
+    // Registration is handled by a custom wordpress page
     registerUser(state, userData) {
-      console.log(userData.user)
       if (userData.terms) {
         axios(`${state.apiUrl}wp/v2/users/register`, {
           data: JSON.stringify(userData.user),
@@ -123,14 +128,14 @@ export default new Vuex.Store({
           },
           method: 'POST'
         })
-          .then(res => {
-            console.log(res)
-          }).then(() => router.push({ name: 'home' })).catch(() => {})
+          .then(() => {
+          }).then(() => router.push({ name: 'home' })).catch(() => { })
           .catch(err => {
             console.log(err)
           })
       }
     },
+    // Checks the status of the user
     checkStatus(state) {
       if (state.token) {
         state.isLoggedIn = true
@@ -139,13 +144,14 @@ export default new Vuex.Store({
         state.isLoggedIn = false
       }
     },
+    // Stores fetched recipes in state object
     setRecipes(state, recipes) {
       state.recipes = recipes
     },
+    // Clears a string of unwanted characters
     strippedContent(state, content) {
-      console.log(content)
       let regex = /(<([^>]+)>)/ig
-      return console.log(content.replace(regex, ""))
+      return content.replace(regex, "")
     }
   },
 
