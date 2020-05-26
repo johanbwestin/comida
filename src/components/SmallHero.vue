@@ -36,6 +36,9 @@
       color: $primary;
       margin-bottom: 23px;
       text-transform: capitalize;
+      @include breakpoint(md) {
+        margin-bottom: 10px;
+      }
     }
     .line {
       display: inline-block;

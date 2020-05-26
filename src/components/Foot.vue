@@ -38,28 +38,52 @@
       <div class="col-one">
         <h3>Information</h3>
         <ul>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
         </ul>
       </div>
       <div class="col-two">
         <h3>Information</h3>
         <ul>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
         </ul>
       </div>
       <div class="col-three">
         <h3>Information</h3>
         <ul>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
-          <li><p>Lorem Ipsum</p></li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
+          <li>
+            <p>Lorem Ipsum</p>
+          </li>
         </ul>
       </div>
     </div>
@@ -67,17 +91,18 @@
 </template>
 <style lang="scss" scoped>
 .footer-section {
-  height: 50vh;
+  min-height: 50vh;
   background-color: $primary;
-  margin-top: 10rem;
+  // margin-top: 10rem;
   position: relative;
   .arrow-container {
     position: absolute;
-    top: -1.4rem;
+    top: -2.4rem;
     height: 5rem;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     .circle {
       display: flex;
       justify-content: center;
@@ -101,8 +126,22 @@
   .footer-container {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
     padding-top: 4rem;
-    .col-one, .col-two, .col-three {
+    padding-bottom: 4rem;
+    text-align: center;
+    @include breakpoint(sm) {
+      text-align: start;
+      flex-direction: row;
+    }
+    .col-one,
+    .col-two,
+    .col-three {
+      margin-bottom: 1rem;
+      @include breakpoint(sm) {
+        margin-bottom: 0rem;
+      }
       h3 {
         color: white;
       }
@@ -116,13 +155,10 @@
       }
     }
     .col-one {
-      
     }
     .col-two {
-
     }
     .col-three {
-      
     }
   }
 }

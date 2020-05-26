@@ -3,9 +3,6 @@ import Vuex from 'vuex'
 import axios from "axios"
 import router from './router'
 
-// import VueRouter from 'vue-router'
-
-
 Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
@@ -26,12 +23,7 @@ export default new Vuex.Store({
           } else {
             commit('onLoad', true)
           }
-          // if(!numOfPosts) {
-          // console.log('hej', res.data.length)
           recipes = res.data
-          // } else {
-          //   recipes = res.data.splice(0, numOfPosts)
-          // }
           commit("setRecipes", recipes)
         })
         .catch(err => {
@@ -61,9 +53,6 @@ export default new Vuex.Store({
       state.loading = isLoading
     },
     onSearch(state, params) {
-      // params.get("search")
-      // console.log(params.get("search"))
-      // if (this.searchInput) {
       console.log(params)
       axios({
         url: `${state.apiUrl}wp/v2/recipes?search=${params}`,
@@ -74,12 +63,10 @@ export default new Vuex.Store({
       })
         .then(res => {
           state.results = res.data
-          // console.log("results:", res.data)
         })
         .catch(err => {
           console.log(err)
         })
-      // }
     },
     updateViews(state, id) {
       console.log('from updateViews')
@@ -102,7 +89,6 @@ export default new Vuex.Store({
       state.popularRecipes = recipes.sort((a, b) => Number(b.meta_box.views) - Number(a.meta_box.views)).slice(0,numOfPosts)
     },
     userLogin(state, user) {
-      // console.log('login?')
       axios(`${state.apiUrl}jwt-auth/v1/token`, {
         data: JSON.stringify(user),
         headers: {
@@ -146,19 +132,15 @@ export default new Vuex.Store({
       }
     },
     checkStatus(state) {
-      // console.log("checkStatus?")
       if (state.token) {
         state.isLoggedIn = true
         router.push({ name: 'home' }).catch(() => { })
       } else {
         state.isLoggedIn = false
-        // router.push('logga-in').catch(() => { })
       }
     },
     setRecipes(state, recipes) {
       state.recipes = recipes
-      // console.log(state.recipes, state.apiUrl)
-
     },
     strippedContent(state, content) {
       console.log(content)

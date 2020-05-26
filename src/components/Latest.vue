@@ -44,7 +44,7 @@
           </div>
         </router-link>
       </swiper-slide>
-    </swiper> -->
+    </swiper>-->
     <div id="swiper-two-pagination" class="swiper-pagination" slot="pagination"></div>
     <div id="swiper-two-prev" class="swiper-button-prev"></div>
     <div id="swiper-two-next" class="swiper-button-next"></div>
@@ -52,18 +52,15 @@
 </template>
 <style lang="scss" scoped>
 .latest-section {
- text-align: start;
+  text-align: start;
   position: relative;
-  height: 44vh;
   width: 100%;
   // SWIPER
   #swiper-two-pagination ::v-deep {
     width: 100%;
     bottom: 0;
     z-index: 1;
-    @include breakpoint(xl) {
-      bottom: 2rem;
-    }
+    bottom: -2rem;
     .swiper-pagination-bullet {
       height: 0.8rem;
       width: 0.8rem;
@@ -94,9 +91,15 @@
     background-color: $thirdary;
   }
   .latest-card {
-    width: 33.33333333333333333333333333333333333333333%;
+    width: 100%;
+    @include breakpoint(md) {
+      width: 50%;
+    }
+    @include breakpoint(lg) {
+      width: 33.33333333333333333333333333333333333333333%;
+    }
     .card-container {
-    width: 90%;
+      width: 100%;
       position: relative;
       display: flex;
       align-items: center;
@@ -124,7 +127,8 @@
           left: auto;
           right: auto;
         }
-        h4, p{
+        h4,
+        p {
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -164,7 +168,8 @@ export default {
         navigation: {
           nextEl: "#swiper-two-next",
           prevEl: "#swiper-two-prev"
-        }
+        },
+        spaceBetween: 16
         // Some Swiper option/callback...
       }
     }

@@ -142,7 +142,7 @@ if ($_POST) {
           <!-- <input class="register-btn" type="submit" name="submit"> -->
           <button class="register-btn" type="submit" name="submit"><span>Registrera</span></button>
           <p>Redan medlem? Logga in <a href="http://localhost:8080/logga-in">här</a></p>
-          <p>Eller fortsätt som <a href="http://localhost:8080/logga-in">gäst</a></p>
+          <p>Eller fortsätt som <a href="http://localhost:8080/hem">gäst</a></p>
         </div>
       </form>
     </div>
@@ -192,7 +192,6 @@ if ($_POST) {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    width: 25%;
     background-color: white;
     -webkit-box-shadow: 0 8px 38px -6px #515052;
     -moz-box-shadow: 0 8px 38px -6px #515052;

@@ -5,7 +5,7 @@
     <!-- <Home /> -->
     <!-- <Register />
     <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-        
+
     <div v-if="$store.state.loading" class="loader-bg">
       <hollow-dots-spinner
         :animation-duration="1200"
@@ -14,7 +14,7 @@
         color="#EC4E20"
       />
     </div>
-    <routerView />
+    <routerView class="content-section" />
     <Foot />
   </div>
 </template>
@@ -44,29 +44,33 @@ export default {
 
 <style lang="scss">
 #app {
+  overflow-x: hidden;
   scroll-behavior: smooth;
   // -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
   // text-align: center;
-      .loader-bg {
-      position: fixed;
-      top: 0;
-      left:0;
-      height: 100vh;
-      width: 100%;
-      z-index: 2;
-      background-color: rgba(255,255,255, 0.4);
-      display: flex;
+  .content-section {
+    padding-bottom: 10rem;
+  }
+  .loader-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .hollow-dots-spinner {
+      // display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      .hollow-dots-spinner {
-        // display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 20%;
-        height: 20%;
-      }
+      width: 20%;
+      height: 20%;
     }
+  }
 }
 </style>

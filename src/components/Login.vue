@@ -15,7 +15,7 @@
           </div>
           <div class="input-container">
             <label class="w3-text-blue">Lösenord</label>
-            <input v-model="user.password" placeholder="Password" type="text" name="password" />
+            <input v-model="user.password" placeholder="Password" type="password" name="password" />
             <p v-if="errMsg.password" class="validation-error">{{errMsg.password}}</p>
           </div>
         </form>
@@ -61,12 +61,18 @@
       flex-direction: column;
       align-items: center;
       position: absolute;
-      height: 46vh;
-      width: 25%;
+      // height: 46vh;
       background-color: $bg;
       -webkit-box-shadow: 0 8px 38px -6px $p-primary;
       -moz-box-shadow: 0 8px 38px -6px $p-primary;
       box-shadow: 0 8px 38px -6px $p-primary;
+      width: 80%;
+      @include breakpoint(md) {
+        width: 50%;
+      }
+      @include breakpoint(lg) {
+        width: 25%;
+      }
       form {
         display: flex;
         flex-direction: column;
@@ -114,6 +120,7 @@
           left: auto;
           right: auto;
           top: 1rem;
+          bottom: 1rem;
         }
         width: 70%;
         input {

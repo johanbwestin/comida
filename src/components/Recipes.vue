@@ -31,7 +31,9 @@
         </router-link>
       </div>
     </div>
-      <button class="pagination" @click="addPosts"><p>Visa fler</p></button>
+    <button class="pagination" @click="addPosts">
+      <p>Visa fler</p>
+    </button>
   </section>
 </template>
 <style lang="scss" scoped>
@@ -86,17 +88,30 @@
       }
     }
     .card-container {
-      width: 33.33333333333333333333333333333333333333333%;
       margin: {
         top: 1rem;
         bottom: 1rem;
       }
+      width: 100%;
+      @include breakpoint(md) {
+        width: 50%;
+      }
+      @include breakpoint(lg) {
+        width: 33.33333333333333333333333333333333333333333%;
+      }
       .card {
-        width: 90%;
+        width: 100%;
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
+        @include breakpoint(md) {
+          width: 90%;
+        }
+        @include breakpoint(lg) {
+          width: 90%;
+        }
         .img-container {
           height: 13.5rem;
           width: 100%;
@@ -167,9 +182,8 @@ export default {
   },
   methods: {
     addPosts() {
-      this.numOfPosts += 5 
+      this.numOfPosts += 5
       this.$store.dispatch("getRecipes", this.numOfPosts)
-
     },
     onSubmit(input) {
       this.$router.push("/sök")

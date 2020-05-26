@@ -132,15 +132,6 @@
           </div>
         </form>
       </div>
-      <!-- <div class="loader-bg">
-        <hollow-dots-spinner
-          v-if="$store.state.loading"
-          :animation-duration="1200"
-          :circles-num="3"
-          :circle-size="15"
-          color="#EC4E20"
-        />
-      </div> -->
       <div class="preview-container">
         <div class="header-container">
           <h2>Förhandsvisning</h2>
@@ -297,35 +288,21 @@
   .content-container {
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
     position: relative;
     margin: {
       left: 10%;
       right: 10%;
     }
-    // .loader-bg {
-    //   position: fixed;
-    //   top: 0;
-    //   left:0;
-    //   height: 100vh;
-    //   width: 100%;
-    //   z-index: 2;
-    //   background-color: rgba(255,255,255, 0.4);
-    //   display: flex;
-    //   justify-content: center;
-    //   align-items: center;
-    //   .hollow-dots-spinner {
-    //     // display: flex;
-    //     flex-direction: column;
-    //     justify-content: center;
-    //     align-items: center;
-    //     width: 20%;
-    //     height: 20%;
-    //   }
-    // }
+    @include breakpoint(md) {
+      flex-direction: row;
+    }
     .preview-container {
       margin-top: 3rem;
-      width: 35%;
+      width: 100%;
+      @include breakpoint(md) {
+        width: 35%;
+      }
       .header-container {
         align-items: center;
         height: 15%;
@@ -418,13 +395,15 @@
       }
     }
     .form-container {
-      width: 35%;
-      border-right: 2px dotted $primary;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 50%;
       background-color: $bg;
+      width: 100%;
+      @include breakpoint(md) {
+        border-right: 2px dotted $primary;
+        width: 50%;
+      }
       h2 {
         margin-top: 3rem;
       }
@@ -526,11 +505,9 @@
 <script>
 import axios from "axios"
 import SmallHero from "./SmallHero.vue"
-// import { HollowDotsSpinner } from "epic-spinners"
 
 export default {
   components: {
-    // HollowDotsSpinner,
     SmallHero
   },
   data() {
@@ -585,6 +562,7 @@ export default {
   mounted() {
     // this.title.charAt(0)
     // console.log(this.title)
+    this.$store.state.loading = false
     if (!this.$store.state.token) {
       this.$router.push({ name: "home" }).catch(() => {})
     }

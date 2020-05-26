@@ -20,11 +20,14 @@
             <img src="../assets/media/svg/search-white.svg" alt="search" />
           </button>
           <div class="result-container" v-if="searchInput">
-            <div v-for="(res, index) in results" :key="index">
-              <router-link :to="'/recept/' + res.id">
-                <p>{{res.title.rendered}}</p>
-              </router-link>
-            </div>
+            <router-link
+              :to="'/recept/' + res.id"
+              v-for="(res, index) in results"
+              :key="index"
+              class="result-item"
+            >
+              <p>{{res.title.rendered}}</p>
+            </router-link>
           </div>
         </div>
       </div>
@@ -32,16 +35,12 @@
         v-if="results.length <= 0 && searchInput || $store.state.results.length <= 0 && results.length <= 0 && !searchInput"
         class="no-results"
       >Vi hittade tyvärr inga träffar på den sökningen.</p>
-      <!-- <p
-        v-if="$store.state.results.length <= 0 && results.length <= 0 && !searchInput"
-        class="no-results"
-      >Vi hittade tyvärr inga träffar på den sökningen.</p>-->
       <div v-if="$store.state.results.length > 0 || searchInput" class="title-container">
         <h2>Resultat</h2>
         <span class="line"></span>
       </div>
-      <div v-if="$store.state.results.length > 0 && !searchInput" class="card-container">
-        <div v-for="(recipe, index) in $store.state.results" :key="index" class="recipes-card">
+      <div v-if="$store.state.results.length > 0 && !searchInput" class="result-card-container">
+        <div v-for="(recipe, index) in $store.state.results" :key="index" class="card-container">
           <router-link :to="'/recept/' + recipe.id">
             <div class="card" @click="$store.commit('updateViews', recipe.id)">
               <div class="img-container">
@@ -52,26 +51,26 @@
                 />
               </div>
               <div class="text-container">
-                <h3 v-if="recipe.title">{{recipe.title.rendered}}</h3>
+                <h4 v-if="recipe.title">{{recipe.title.rendered}}</h4>
                 <p v-if="recipe.meta_box.description">{{recipe.meta_box.description}}</p>
               </div>
             </div>
           </router-link>
         </div>
       </div>
-      <div v-if="searchInput || !$store.state.results" class="card-container">
-        <div v-for="(recipe, index) in results" :key="index" class="recipes-card">
+      <div v-if="searchInput || !$store.state.results" class="result-card-container">
+        <div v-for="(recipe, index) in recipes" :key="index" class="card-container">
           <router-link :to="'/recept/' + recipe.id">
             <div class="card" @click="$store.commit('updateViews', recipe.id)">
               <div class="img-container">
                 <img
                   v-if="recipe.better_featured_image"
-                  :src="recipe.better_featured_image.media_details.sizes.thumbnail.source_url"
+                  :src="recipe.better_featured_image.media_details.sizes.medium.source_url"
                   alt
                 />
               </div>
               <div class="text-container">
-                <h3 v-if="recipe.title">{{recipe.title.rendered}}</h3>
+                <h4 v-if="recipe.title">{{recipe.title.rendered}}</h4>
                 <p v-if="recipe.meta_box.description">{{recipe.meta_box.description}}</p>
               </div>
             </div>
@@ -87,7 +86,6 @@
 .recipes-section {
   text-align: start;
   position: relative;
-  // height: 50vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -106,10 +104,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 80%;
+        width: 100%;
         margin: {
           top: 4rem;
           bottom: 4rem;
+        }
+        @include breakpoint(md) {
+          width: 80%;
         }
         .search-input,
         button {
@@ -123,14 +124,35 @@
           width: 5rem;
           display: flex;
           justify-content: center;
+          align-items: center;
           border: none;
         }
       }
       .result-container {
         position: absolute;
-        top: 3rem;
+        z-index: 4;
+        top: 2.5rem;
         left: 0;
-        .result {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-right: 1px solid;
+        border-left: 1px solid;
+        border-color: lightgray;
+        .result-item {
+          display: flex;
+          background-color: white;
+          border-bottom: 1px solid lightgray;
+          height: 3rem;
+          text-decoration: none;
+          p {
+            margin: {
+              left: 1rem;
+              top: auto;
+              bottom: auto;
+            }
+          }
         }
       }
     }
@@ -145,25 +167,67 @@
         background-color: $thirdary;
       }
     }
-    .card-container {
-      margin: {
-        left: auto;
-        right: auto;
-        bottom: 5rem;
-      }
+    .result-card-container {
+      width: 100%;
       display: flex;
-      flex-direction: row;
       flex-wrap: wrap;
-      .recipes-card {
-        width: 33.3%;
+      margin-bottom: 5rem;
+      .card-container {
+        margin: {
+          top: 1rem;
+          bottom: 1rem;
+        }
+        width: 100%;
+        @include breakpoint(md) {
+          width: 50%;
+        }
+        @include breakpoint(lg) {
+          width: 33.33333333333333333333333333333333333333333%;
+        }
         .card {
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          @include breakpoint(md) {
+            width: 90%;
+          }
+          @include breakpoint(lg) {
+            width: 90%;
+          }
           .img-container {
-            height: 10rem;
-            width: 10rem;
-            background-color: green;
+            height: 13.5rem;
+            width: 100%;
+            background-color: lightgray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             img {
-              height: 10rem;
-              width: 10rem;
+              // height: 100%;
+              width: 100%;
+            }
+          }
+          .text-container {
+            position: absolute;
+            bottom: 1rem;
+            // left: 1rem;
+            width: 87%;
+            color: white;
+            margin: {
+              left: auto;
+              right: auto;
+            }
+            h4,
+            p {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 1; /* number of lines to show */
+              -webkit-box-orient: vertical;
+              color: white;
             }
           }
         }
@@ -192,7 +256,6 @@ export default {
       filteredResults: null,
       filteredIngredients: null,
       hasUrlParams: null
-
       // recipes: ,
       // Some Swiper option/callback...
     }
@@ -251,6 +314,7 @@ export default {
     },
     onSubmit(input) {
       // this.$router.push("/sök").catch(err => console.log(err))
+      this.searchInput = ""
       this.$store.commit("onSearch", input)
     },
     filterResults() {

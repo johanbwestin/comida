@@ -24,11 +24,14 @@
             </button>
           </form>
           <div class="result-container" v-if="searchInput">
-            <div v-for="(res, index) in results" :key="index" class="result">
-              <router-link :to="'/recept/' + res.id">
-                <p>{{res.title.rendered}}</p>
-              </router-link>
-            </div>
+            <router-link
+              :to="'/recept/' + res.id"
+              v-for="(res, index) in results"
+              :key="index"
+              class="result-item"
+            >
+              <p>{{res.title.rendered}}</p>
+            </router-link>
           </div>
         </div>
       </div>
@@ -41,7 +44,7 @@
   height: 60vh;
   width: 100%;
   background-image: url("../assets/media/png/bg-img-full.jpg");
-  background-size: 100%;
+  background-size: cover;
   background-position-y: 80%;
   background-repeat: no-repeat;
   display: flex;
@@ -88,7 +91,10 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        width: 30%;
+        width: 70%;
+        @include breakpoint(sm) {
+          width: 30%;
+        }
         form {
           display: flex;
           align-items: center;
@@ -112,9 +118,29 @@
         }
         .result-container {
           position: absolute;
-          top: 3rem;
+          z-index: 4;
+          top: 2.5rem;
           left: 0;
-          .result {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          border-right: 1px solid;
+          border-left: 1px solid;
+          border-color: lightgray;
+          .result-item {
+            display: flex;
+            background-color: white;
+            border-bottom: 1px solid lightgray;
+            height: 3rem;
+            text-decoration: none;
+            p {
+              margin: {
+                left: 1rem;
+                top: auto;
+                bottom: auto;
+              }
+            }
           }
         }
       }

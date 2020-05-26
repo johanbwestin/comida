@@ -7,11 +7,6 @@
         <span class="line"></span>
       </router-link>
       <div class="menu-item-container">
-        <!-- <li class="menu-item">
-          <router-link to="/sök">
-            <p class="menu-link">Sök</p>
-          </router-link>
-        </li>-->
         <li class="menu-item" v-for="item in menuItems" :key="item.ID">
           <router-link :to="'/' + item.title.toLowerCase()">
             <p class="menu-link">{{ item.title }}</p>
@@ -19,48 +14,27 @@
         </li>
         <li class="menu-item" v-if="this.$store.state.token">
           <router-link to="/recept/nytt">
-            <p class="menu-link">Nytt Recept</p>
+            <p class="menu-link">Nytt recept</p>
             <!-- <img class="icon" alt="List" src="../assets/media/svg/list.svg" /> -->
           </router-link>
         </li>
-        <li class="menu-item" @click="logOut" v-if="$store.state.isLoggedIn">
+        <li class="menu-item" @click="logOut" v-if="this.$store.state.token">
           <!-- <router-link to="/"> -->
-          <p class="menu-link">Logga Ut</p>
+          <p class="menu-link">Logga ut</p>
           <!-- </router-link> -->
         </li>
-        <li class="menu-item" v-if="!$store.state.isLoggedIn">
+        <li class="menu-item" v-if="!this.$store.state.token">
           <router-link to="/logga-in">
             <p class="menu-link">Logga in</p>
           </router-link>
         </li>
         <li v-if="this.$store.state.token" class="menu-item">
-          <!-- <router-link to="/"> -->
-          <img class="user" alt="User" src="../assets/media/svg/user.svg" />
-          <!-- </router-link> -->
+          <router-link to="/profil">
+            <img class="user" alt="User" src="../assets/media/svg/user.svg" />
+          </router-link>
         </li>
       </div>
-    </ul>
-    <ul class="mobile-menu">
-      <li>
-        <!-- <router-link to="/"> -->
-        <p>Recept</p>
-        <!-- </router-link> -->
-      </li>
-      <li>
-        <!-- <router-link to="/"> -->
-        <p>Matlista</p>
-        <!-- </router-link> -->
-      </li>
-      <li>
-        <!-- <router-link to="/"> -->
-        <p>Sparat</p>
-        <!-- </router-link> -->
-      </li>
-      <li>
-        <!-- <router-link to="/"> -->
-        <p>Hem</p>
-        <!-- </router-link> -->
-      </li>
+      <hamburger-menu class="hamburger" />
     </ul>
   </nav>
 </template>
@@ -87,9 +61,13 @@
       flex: 1;
       flex-direction: row;
       align-items: center;
-      margin-left: 50px;
+      // margin-left: 50px;
       color: $primary;
       text-decoration: none;
+      margin-left: 20px;
+      @include breakpoint(md) {
+        margin-left: 50px;
+      }
       .logo {
         padding: 5px;
         color: $bg;
@@ -108,10 +86,13 @@
       flex: 1;
       align-items: center;
       justify-content: flex-end;
-      display: flex;
       flex-direction: row;
       list-style-type: none;
       margin-right: 25px;
+      display: none;
+      @include breakpoint(md) {
+        display: flex;
+      }
       .menu-item {
         margin-left: 20px;
         margin-right: 20px;
@@ -149,7 +130,12 @@
 }
 </style>
 <script>
+import HamburgerMenu from "./HamburgerMenu.vue"
+
 export default {
+  components: {
+    HamburgerMenu
+  },
   data() {
     return {
       view: {
@@ -162,7 +148,6 @@ export default {
     this.$http.get("wp/v2/menu").then(
       res => {
         this.menuItems = res.data
-        // console.log(this.$route)
       },
       error => alert(error)
     )

@@ -7,6 +7,7 @@ import Register from './components/Register'
 import Home from './components/Home'
 import Single from './components/Single'
 import Search from './components/Search'
+import Profile from './components/Profile'
 
 Vue.use(Router)
 
@@ -43,6 +44,10 @@ export default new Router({
     {
       component: Login,
       path: '/logga-in'
+    },
+    {
+      component: Profile,
+      path: '/profil'
     },
     {
       component: Register,
