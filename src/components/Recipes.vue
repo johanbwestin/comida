@@ -5,13 +5,6 @@
       <div class="title-container">
         <h2>Recept</h2>
         <span class="line"></span>
-        <hollow-dots-spinner
-          v-if="$store.state.loading"
-          :animation-duration="1200"
-          :circles-num="3"
-          :circle-size="15"
-          color="#EC4E20"
-        />
       </div>
       <div v-for="(recipe, index) in recipes" :key="index" class="card-container">
         <router-link :to="'/recept/' + recipe.id">
@@ -19,7 +12,7 @@
             <div class="img-container">
               <img
                 v-if="recipe.better_featured_image"
-                :src="recipe.better_featured_image.media_details.sizes.medium.source_url"
+                :src="recipe.better_featured_image.source_url"
                 alt
               />
             </div>
@@ -119,7 +112,7 @@
           justify-content: center;
           overflow: hidden;
           img {
-            width: 100%;
+            height: 100%;
           }
         }
         .text-container {

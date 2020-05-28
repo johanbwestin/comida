@@ -33,7 +33,10 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    // Get all posts for setPopularRecipes() to set the most viewed posts
+    // Get all posts for setPopularRecipes() to sort out the most viewed posts.
+    // I have not found a good way to fetch all posts from wp api so i'm 
+    // fetching 100 witch is the max amount of posts per page. 
+    // (this is a temporary solution)
     getPopularRecipes({ commit }, numOfPosts) {
       axios({
         url: `${this.state.apiUrl}wp/v2/recipes/?per_page=100`,
@@ -56,10 +59,10 @@ export default new Vuex.Store({
     onLoad(state, isLoading) {
       state.loading = isLoading
     },
-    // Fetches the post from wp api based on searchParams
-    onSearch(state, searchParams) {
+    // Fetches the post from wp api based on searchInput
+    onSearch(state, searchInput) {
       axios({
-        url: `${state.apiUrl}wp/v2/recipes?search=${searchParams}`,
+        url: `${state.apiUrl}wp/v2/recipes?search=${searchInput}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -72,7 +75,8 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    // Update views on a recipe when recipe is viewed
+    // Update views based on post_id on a recipe when it is viewed.
+    // Made a custom endpoint for this, see functions.php in wp custom admin theme.
     updateViews(state, id) {
       axios({
         url: `${state.apiUrl}base/views/${id}`,
@@ -89,10 +93,12 @@ export default new Vuex.Store({
     },
     // Sorting out the popular posts based on viewes
     setPopularRecipes(state, { recipes, numOfPosts }) {
-      // Sorting out the top 5 most viewed recipes
+      // Sorting out the most viewed recipes.
+      // numOfNosts is the amount of recipes that should be stored in the state object popularRecipes 
       state.popularRecipes = recipes.sort((a, b) => Number(b.meta_box.views) - Number(a.meta_box.views)).slice(0, numOfPosts)
     },
-    // Handles login
+    // Handles login.
+    // Uses localStorage to store token.
     userLogin(state, user) {
       axios(`${state.apiUrl}jwt-auth/v1/token`, {
         data: JSON.stringify(user),
@@ -119,6 +125,7 @@ export default new Vuex.Store({
     },
     // Handles user registration. this function is not in use at the moment.
     // Registration is handled by a custom wordpress page
+    // See the custom-registration.php in the custom wordpress admin theme
     registerUser(state, userData) {
       if (userData.terms) {
         axios(`${state.apiUrl}wp/v2/users/register`, {
@@ -135,7 +142,7 @@ export default new Vuex.Store({
           })
       }
     },
-    // Checks the status of the user
+    // Checks the status of the user and pushes user to home page if isLoggedIn
     checkStatus(state) {
       if (state.token) {
         state.isLoggedIn = true

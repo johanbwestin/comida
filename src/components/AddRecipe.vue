@@ -124,7 +124,9 @@
           </div>
           <div class="button-container">
             <button class="back-btn">
-              <p>Tillbaka</p>
+              <router-link to="/hem">
+                <p>Tillbaka</p>
+              </router-link>
             </button>
             <button class="submit-btn" @click.prevent="onSubmit">
               <p>Skicka</p>
@@ -412,6 +414,9 @@
             top: 1.4rem;
           }
           width: 70%;
+          a {
+            text-decoration: none;
+          }
           .success-text {
             position: absolute;
             color: $thirdary;

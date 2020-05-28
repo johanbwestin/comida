@@ -11,7 +11,7 @@
             <div class="img-container">
               <img
                 v-if="recipe.better_featured_image"
-                :src="recipe.better_featured_image.media_details.sizes.medium.source_url"
+                :src="recipe.better_featured_image.source_url"
                 alt
               />
             </div>
@@ -91,7 +91,7 @@
         justify-content: center;
         overflow: hidden;
         img {
-          width: 100%;
+          height: 100%;
         }
       }
       .text-container {

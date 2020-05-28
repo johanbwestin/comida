@@ -7,25 +7,24 @@ module.exports = {
   },
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'development') {
-      config.devtool = 'eval-source-map';
+      config.devtool = 'eval-source-map'
 
       config.output.devtoolModuleFilenameTemplate = info => info.resourcePath.match(/^\.\/\S*?\.vue$/)
         ? `webpack-generated:///${info.resourcePath}?${info.hash}`
-        : `webpack-yourCode:///${info.resourcePath}`;
+        : `webpack-yourCode:///${info.resourcePath}`
 
-      config.output.devtoolFallbackModuleFilenameTemplate = 'webpack:///[resource-path]?[hash]';
+      config.output.devtoolFallbackModuleFilenameTemplate = 'webpack:///[resource-path]?[hash]'
     }
   },
 }
 
-function addStyleResource (rule) {
+function addStyleResource(rule) {
   rule.use('style-resource')
     .loader('style-resources-loader')
     .options({
       patterns: [
         path.resolve(__dirname, './src/assets/sass/variables/*.scss'),
         path.resolve(__dirname, './src/assets/sass/style.scss'),
-        // path.resolve(__dirname, './src/assets/media/fonts/*.ttf')
       ],
     })
 }

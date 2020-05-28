@@ -105,7 +105,7 @@ export default {
             this.instructions = res.data.meta_box.instruction_list
             this.title = res.data.title.rendered
             if (res.data.better_featured_image) {
-              this.imageUrl = res.data.better_featured_image.media_details.sizes.medium.source_url
+              this.imageUrl = res.data.better_featured_image.source_url
             }
           }
         })

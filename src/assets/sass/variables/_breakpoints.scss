@@ -7,19 +7,11 @@
   @else if $class == xsmin {
     @media (min-width: 320px) { @content; }
   }
-
-  @else if $class == xssm {
-    @media (min-width: 430px) { @content; }
-  }
  
   @else if $class == sm {
     @media (min-width:  540px) { @content; }
   }
- 
-  @else if $class == smed {
-    @media (min-width:  670px) { @content; }
-  }
- 
+
   @else if $class == md {
     @media (min-width: 992px) { @content; }
   }
@@ -31,27 +23,8 @@
   @else if $class == xl {
     @media (min-width: 1700px) { @content; }
   }
-  // Max/min height
-  @else if $class == minh {
-    @media (min-height: 820px) { @content; }
-  }
-  @else if $class == maxh {
-    @media (max-height: 740px) { @content; }
-  }
-  @else if $class == maxhsm {
-    @media (max-height: 450px) { @content; }
-  }
-  @else if $class == maxhsmed {
-    @media (max-height: 800px) { @content; }
-  }
-  @else if $class == maxhmd {
-    @media (max-height: 820px) { @content; }
-  }
-  @else if $class == maxhlg {
-    @media (max-height: 890px) { @content; }
-  }
- 
+
   @else {
-    @warn $class + "Breakpoint mixin supports: xsmax, xsmin, smed, sm, md, lg, xl, xssm, maxh, minh, maxhsm, maxhsmed, maxhmd, maxhlg";
+    @warn $class + "Breakpoint mixin supports: xsmax, xsmin, sm, md, lg, xl";
   }
 }
