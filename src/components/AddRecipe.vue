@@ -57,7 +57,7 @@
             </label>
             <input
               v-model="recipe.description"
-              placeholder="Instruktion"
+              placeholder="Beskrivning"
               type="text"
               name="description"
             />

@@ -43,6 +43,9 @@
     .recipe-container {
       margin-top: 3rem;
       width: 100%;
+      img {
+        height: 15rem;
+      }
       .header-container {
         align-items: center;
         height: 15%;
